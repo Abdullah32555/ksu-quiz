@@ -1,0 +1,977 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>KSU 101</title>
+  <style>
+    :root {
+      --blue: #1268d8;
+      --navy: #0d4f7d;
+      --bg: #f2f7fb;
+      --card: #fff;
+      --text: #11243a;
+      --muted: #6e8297;
+      --line: #dbe5ef;
+      --green: #28a34a;
+      --red: #dc4a5d;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font-family: Tahoma, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text)
+    }
+
+    button,
+    input,
+    select {
+      font-family: inherit
+    }
+
+    header {
+      min-height: 148px;
+      background: linear-gradient(110deg, #155b90, #1268d8);
+      color: #fff;
+      padding: 24px 4vw;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 52px;
+      line-height: 1;
+      font-weight: 900
+    }
+
+    .brand p {
+      margin: 16px 0 0;
+      font-size: 22px
+    }
+
+    .header-btn {
+      border: 1px solid rgba(255, 255, 255, .55);
+      background: transparent;
+      color: #fff;
+      border-radius: 14px;
+      padding: 12px 18px;
+      cursor: pointer
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 26px
+    }
+
+    .home-title {
+      font-size: 34px;
+      margin: 14px 0 28px;
+      font-weight: 900
+    }
+
+    .chapter-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 26px
+    }
+
+    .chapter-card {
+      --accent: #1268d8;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-right: 10px solid var(--accent);
+      border-radius: 28px;
+      padding: 28px 26px;
+      box-shadow: 0 10px 26px rgba(32, 72, 110, .07);
+      cursor: pointer;
+      transition: .18s;
+      min-height: 244px
+    }
+
+    .chapter-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 32px rgba(32, 72, 110, .12)
+    }
+
+    .chapter-card.selected {
+      outline: 4px solid color-mix(in srgb, var(--accent) 30%, transparent)
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: flex-start
+    }
+
+    .card-kicker {
+      font-size: 20px;
+      color: var(--accent);
+      font-weight: 900
+    }
+
+    .card-title {
+      font-size: 30px;
+      margin: 22px 0 34px;
+      font-weight: 900
+    }
+
+    .count-pill {
+      background: #edf5ff;
+      color: #065fc7;
+      border-radius: 999px;
+      padding: 13px 18px;
+      font-size: 18px;
+      font-weight: 900;
+      white-space: nowrap
+    }
+
+    .progress {
+      height: 14px;
+      background: #e8eef4;
+      border-radius: 999px;
+      overflow: hidden
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      width: var(--progress, 0%);
+      background: var(--accent)
+    }
+
+    .card-stats {
+      display: flex;
+      justify-content: space-between;
+      color: #6d8298;
+      font-size: 19px;
+      margin: 18px 0 24px
+    }
+
+    .start-card-btn {
+      width: 100%;
+      border: 0;
+      border-radius: 16px;
+      background: var(--accent);
+      color: #fff;
+      padding: 17px;
+      font-size: 22px;
+      font-weight: 900;
+      cursor: pointer
+    }
+
+    .controls {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      margin: 30px 0;
+      padding: 22px;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 16px
+    }
+
+    .field label {
+      display: block;
+      font-size: 17px;
+      font-weight: 900;
+      margin-bottom: 9px
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      height: 54px;
+      border: 1px solid #cbd9e7;
+      border-radius: 13px;
+      padding: 0 14px;
+      font-size: 18px;
+      background: #fff
+    }
+
+    .exam {
+      display: none;
+      max-width: 1050px;
+      margin: -32px auto 40px;
+      padding: 0 22px
+    }
+
+    .exam-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: 0 8px 24px rgba(40, 70, 100, .06)
+    }
+
+    .exam-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      color: #0962cf;
+      font-weight: 900;
+      font-size: 17px
+    }
+
+    .timer {
+      background: #fff3d8;
+      color: #9a6200;
+      border: 1px solid #f0cc7d;
+      border-radius: 999px;
+      padding: 9px 16px;
+      font-size: 18px;
+      min-width: 110px;
+      text-align: center
+    }
+
+    .timer.danger {
+      background: #fde3e6;
+      color: #b4233d;
+      border-color: #ef9cab
+    }
+
+    .page-badge {
+      background: #eef6ff;
+      color: #0b63c7;
+      border: 1px solid #b8d6f5;
+      border-radius: 999px;
+      padding: 9px 14px;
+      white-space: nowrap
+    }
+
+    .mark-btn {
+      border: 1px solid #e0b84f;
+      background: #fff9df;
+      color: #8a6200;
+      border-radius: 13px;
+      padding: 14px 18px;
+      font-size: 17px;
+      font-weight: 900;
+      cursor: pointer
+    }
+
+    .mark-btn.marked {
+      background: #ffe89a;
+      border-color: #d39a00;
+      color: #6d4d00
+    }
+
+    .review-list {
+      margin-top: 28px;
+      text-align: right
+    }
+
+    .review-item {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px;
+      margin: 16px 0;
+      background: #fff
+    }
+
+    .review-item.correct-review {
+      border-right: 8px solid var(--green);
+      background: #f4fbf6
+    }
+
+    .review-item.wrong-review {
+      border-right: 8px solid var(--red);
+      background: #fff6f7
+    }
+
+    .review-q {
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1.7;
+      margin-bottom: 12px
+    }
+
+    .review-answer {
+      font-size: 17px;
+      line-height: 1.8;
+      margin: 6px 0
+    }
+
+    .review-answer.user-wrong {
+      color: #b4233d;
+      font-weight: 900
+    }
+
+    .review-answer.user-correct {
+      color: #17813a;
+      font-weight: 900
+    }
+
+    .review-answer.right-answer {
+      color: #1268d8;
+      font-weight: 900
+    }
+
+    .review-explanation {
+      margin-top: 10px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: #eef6ff;
+      line-height: 1.8
+    }
+
+    .review-filter {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 20px 0
+    }
+
+    .review-filter button {
+      border: 1px solid #9fc4ea;
+      background: #fff;
+      color: #0c63c7;
+      border-radius: 12px;
+      padding: 10px 16px;
+      font-weight: 900;
+      cursor: pointer
+    }
+
+    .review-filter button.active {
+      background: #1268d8;
+      color: #fff;
+      border-color: #1268d8
+    }
+
+    .question {
+      font-size: 31px;
+      line-height: 1.6;
+      font-weight: 900;
+      margin: 28px 0
+    }
+
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      border: 1px solid #cad9e7;
+      border-radius: 18px;
+      padding: 19px;
+      margin: 12px 0;
+      cursor: pointer;
+      background: #fff
+    }
+
+    .option:hover {
+      border-color: #80b8f4
+    }
+
+    .letter {
+      width: 46px;
+      height: 46px;
+      min-width: 46px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #edf3f8;
+      color: #4d6982;
+      font-size: 21px;
+      font-weight: 900
+    }
+
+    .option-text {
+      font-size: 21px;
+      line-height: 1.7;
+      flex: 1
+    }
+
+    .option.selected {
+      border-color: #4f9df2;
+      background: #f5faff
+    }
+
+    .option.correct {
+      background: #dff4e4;
+      border-color: #69c17d
+    }
+
+    .option.wrong {
+      background: #fde4e8;
+      border-color: #e67887
+    }
+
+    .feedback {
+      margin-top: 14px;
+      font-size: 18px;
+      line-height: 1.8;
+      font-weight: 700
+    }
+
+    .feedback strong {
+      display: block;
+      margin-bottom: 4px
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 24px
+    }
+
+    .nav button {
+      border-radius: 13px;
+      padding: 14px 24px;
+      font-size: 18px;
+      font-weight: 900;
+      cursor: pointer
+    }
+
+    .primary {
+      border: 0;
+      background: #1268d8;
+      color: #fff
+    }
+
+    .secondary {
+      border: 1px solid #92bdeb;
+      background: #fff;
+      color: #0962cf
+    }
+
+    .results {
+      display: none;
+      max-width: 760px;
+      margin: -30px auto 40px;
+      padding: 0 22px
+    }
+
+    .results-card {
+      background: #fff;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      padding: 34px;
+      text-align: center
+    }
+
+    .score-big {
+      font-size: 64px;
+      color: #1268d8;
+      font-weight: 900
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 24px 0
+    }
+
+    .result-box {
+      background: #f4f8fc;
+      border-radius: 16px;
+      padding: 18px
+    }
+
+    .hidden {
+      display: none !important
+    }
+
+    footer {
+      text-align: center;
+      color: #73869a;
+      padding: 28px
+    }
+
+    @media(max-width:800px) {
+      header {
+        min-height: 120px
+      }
+
+      .brand h1 {
+        font-size: 40px
+      }
+
+      .brand p {
+        font-size: 18px
+      }
+
+      .chapter-grid {
+        grid-template-columns: 1fr
+      }
+
+      .controls {
+        grid-template-columns: 1fr
+      }
+
+      .card-title {
+        font-size: 26px
+      }
+
+      .question {
+        font-size: 25px
+      }
+
+      .exam-card {
+        padding: 20px
+      }
+    }
+  
+    .marked-review-btn{
+      border:1px solid #f2b94b;background:#fff8e7;color:#8a5a00;
+      padding:12px 18px;border-radius:14px;font-weight:800;cursor:pointer
+    }
+    .marked-modal{
+      display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);
+      z-index:9999;align-items:center;justify-content:center;padding:20px
+    }
+    .marked-modal.show{display:flex}
+    .marked-box{
+      width:min(620px,96vw);max-height:80vh;overflow:auto;background:#fff;
+      border-radius:20px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.2)
+    }
+    .marked-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+    .marked-head h3{margin:0;color:#0d4f7d}
+    .marked-close{border:0;background:#eef5fb;border-radius:10px;padding:8px 12px;cursor:pointer;font-weight:800}
+    .marked-grid{display:flex;flex-wrap:wrap;gap:10px}
+    .marked-q{
+      min-width:52px;padding:10px 12px;border:1px solid #f2b94b;background:#fff8e7;
+      border-radius:12px;cursor:pointer;font-weight:800;color:#8a5a00
+    }
+    .marked-empty{color:#6e8297;padding:12px 0}
+
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="brand">
+      <h1>KSU 101</h1>
+      <p>بنك الأسئلة المعرفي</p>
+    </div>
+    <button class="header-btn" onclick="goHome()">الصفحة الرئيسية</button>
+  </header>
+
+  <section id="home">
+    <div class="container">
+      <h2 class="home-title">اختر الباب</h2>
+      <div class="chapter-grid" id="chapterGrid"></div>
+
+      <div class="controls">
+        <div class="field"><label>الاسم (إجباري)</label><input id="candidateName" placeholder="اكتب اسمك"></div>
+        <div class="field"><label>عدد الأسئلة</label>
+          <select id="questionCount">
+            <option>10</option>
+            <option>20</option>
+            <option>30</option>
+            <option>50</option>
+            <option>100</option>
+            <option value="all">الكل</option>
+          </select>
+        </div>
+        <div class="field"><label>ترتيب الأسئلة</label>
+          <select id="questionOrder">
+            <option value="random">عشوائي</option>
+            <option value="normal">حسب الترتيب</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="exam" id="exam">
+    <div class="exam-card">
+      <div class="exam-meta"><span id="qCounter"></span><span class="timer" id="timer">00:00</span><span
+          id="qPage" class="page-badge"></span></div>
+      <div class="question" id="question"></div>
+      <div id="options"></div>
+      <div class="nav">
+        <button class="secondary" id="prevBtn" onclick="prevQ()">السابق</button>
+        <button class="mark-btn" id="markBtn" onclick="toggleMark()">☆ علّم للمراجعة</button>
+        <button class="marked-review-btn" type="button" onclick="openMarkedQuestions()">⭐ الأسئلة المعلّمة</button>
+        <button class="primary" id="nextBtn" onclick="nextQ()">التالي</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="results" id="results">
+    <div class="results-card">
+      <h2>نتيجة الاختبار</h2>
+      <div class="score-big" id="finalPercent">0%</div>
+      <div class="result-grid">
+        <div class="result-box">الصحيح<br><strong id="correctCount">0</strong></div>
+        <div class="result-box">الخطأ<br><strong id="wrongCount">0</strong></div>
+        <div class="result-box">الأسئلة<br><strong id="totalCount">0</strong></div>
+      </div>
+      <div class="review-filter">
+        <button class="active" id="filterAll" onclick="renderReview('all')">جميع الإجابات</button>
+        <button id="filterWrong" onclick="renderReview('wrong')">الإجابات الخاطئة</button>
+        <button id="filterCorrect" onclick="renderReview('correct')">الإجابات الصحيحة</button>
+      </div>
+      <div class="review-list" id="reviewList"></div>
+      <button class="primary" style="padding:15px 30px;border-radius:14px" onclick="goHome()">العودة للرئيسية</button>
+    </div>
+  </section>
+  
+  <div id="markedModal" class="marked-modal" onclick="if(event.target===this) closeMarkedQuestions()">
+    <div class="marked-box">
+      <div class="marked-head">
+        <h3>⭐ الأسئلة المعلّمة للمراجعة</h3>
+        <button class="marked-close" type="button" onclick="closeMarkedQuestions()">إغلاق</button>
+      </div>
+      <div id="markedQuestionsList"></div>
+    </div>
+  </div>
+
+  <footer>KSU 101 Quiz</footer>
+
+  <script>
+    const questions = [{"chapter":1,"page":8,"score":3,"q":"ماذا يقصد بلفظ \"الجامعة\" في النظام الأساس لجامعة الملك سعود؟","options":["مجلس إدارة الجامعة","جامعة الملك سعود (مؤسسة أكاديمية مستقلة غير هادفة للربح)","الهيئة الملكية لمدينة الرياض","رئيس الجامعة"],"answer":1,"explanation":"الصفحة 8"},{"chapter":1,"page":"","score":3,"q":"ماذا يقصد بلفظ \"الهيئة\" في النظام الأساس لجامعة الملك سعود؟","options":["مجلس شؤون الجامعات","وزارة التعليم","مجلس إدارة الجامعة","الهيئة الملكية لمدينة الرياض"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا يقصد بلفظ \"المجلس\" في النظام الأساس لجامعة الملك سعود؟","options":["مجلس إدارة الجامعة","مجلس شؤون الجامعات","مجلس الأمناء","المجلس العلمي"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا يقصد بلفظ \"النظام\" في النظام الأساس لجامعة الملك سعود؟","options":["نظام مجلس التعليم العالي","نظام الجامعات","النظام الأساس للجامعة","نظام الخدمة المدنية"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا يقصد بلفظ \"اللوائح\" في النظام الأساس لجامعة الملك سعود؟","options":["القرارات الإدارية للجامعة","اللوائح الصادرة بناءً على هذا النظام","لوائح وزارة التعليم فقط","اللوائح المالية فقط"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الصفة النظامية لجامعة الملك سعود الواردة في عنوان النظام الأساس؟","options":["جهة حكومية ربحية","مؤسسة تعليمية تابعة لوزارة التعليم","مؤسسة أكاديمية مستقلة غير هادفة للربح","شركة تعليمية مستقلة"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"بماذا تتمتع جامعة الملك سعود بناءً على النظام؟","options":["بالشخصية الاعتبارية والذمة المالية المستقلة","بالاستقلال الأكاديمي فقط","بالاستقلال الإداري فقط","بالشخصية الاعتبارية دون ذمة مالية مستقلة"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما أوجه الاستقلال التي تتمتع بها الجامعة؟","options":["الاستقلال المالي فقط","الاستقلال الأكاديمي فقط","الاستقلال المالي والإداري والأكاديمي","الاستقلال الإداري والمالي فقط"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"لمن تكون ملكية جامعة الملك سعود؟","options":["لوزارة التعليم","لمجلس إدارة الجامعة","للدولة","للهيئة"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"أين يكون المقر الرئيس لجامعة الملك سعود؟","options":["مدينة الرياض","مدينة جدة","مدينة مكة المكرمة","مدينة الدرعية"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الذي يجوز للجامعة إنشاؤه وفق المادة الثانية؟","options":["فروع داخل الرياض فقط","فروع وكليات ومعاهد وأقسام ومراكز أبحاث وبرامج في غير مقرها الرئيس بحسب الحاجة","كليات خارج المملكة فقط","مراكز أبحاث داخل مقرها الرئيس فقط"],"answer":1,"explanation":""},{"chapter":1,"page":9,"score":3,"q":"من الجهة التي تشرف على إدارة جامعة الملك سعود؟","options":["وزارة التعليم","مجلس إدارة الهيئة","مجلس شؤون الجامعات","مجلس إدارة الجامعة"],"answer":1,"explanation":"الصفحة 9"},{"chapter":1,"page":"","score":3,"q":"كيف يشرف مجلس إدارة الهيئة على إدارة الجامعة؟","options":["من خلال اعتماد رؤاها وخططها الاستراتيجية وخططها وتقاريرها السنوية وما تضعه من ضوابط ومعايير واطر قياس أداء ذات صلة بالتعليم الاكاديمي العالي وفقا لاحكام النظام","من خلال إدارة البرامج الأكاديمية مباشرة","من خلال تعيين جميع موظفي الجامعة","من خلال إدارة الكليات والأقسام مباشرة"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من اختصاصات مجلس إدارة الهيئة المتعلقة بسياسات الجامعة؟","options":["اعتماد السياسات المتعلقة بأنشطة الجامعة واستراتيجياتها والخطط والبرامج اللازمة لتنفيذها","اعتماد جداول المحاضرات","تحديد المقررات لكل كلية","تعيين أعضاء هيئة التدريس"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الذي يعتمده مجلس إدارة الهيئة فيما يتعلق بميزانية الجامعة؟","options":["ميزانية الكليات فقط","مشروع ميزانية الجامعة وحسابها الختامي وتقريرها السنوي وتقرير مراجع الحسابات","رواتب الموظفين فقط","ميزانية البحث العلمي فقط"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الذي يعتمده مجلس إدارة الهيئة بشأن طلبات الدعم المالي للجامعة؟","options":["طلبات الدعم المالي للطلاب فقط","طلبات الدعم من وزارة التعليم فقط","السياسات المنظمة للموافقة على طلبات الدعم المالي للجامعة وآلية تحفيزه وقبول الجامعة للهبات والمنح والتبرعات والأوقاف والمساهمات الأخرى داخل المملكة او خارجها","طلبات القروض فقط"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الذي يعتمد مجلس إدارة الهيئة ضوابطه إلى جانب صور التمويل الأخرى؟","options":["اعتماد ضوابط عقد الجامعة للقروض او التمويل","تعيين أعضاء هيئة التدريس","قبول الطلاب","إنشاء الأقسام العلمية"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا يشمل اعتماد استراتيجية الجامعة للاستثمار وسياساته واجراءاته بما في ذلك؟","options":["الاستثمار داخل المملكة فقط","تحديد العوائد المستهدفة وآلية اتخاذ قرار الاستثمار ومتابعة أدائه والتخارج منه","تحديد عدد الشركات فقط","الاستثمار في العقارات فقط"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من ضمن ما يعتمده مجلس إدارة الهيئة","options":["السياسات التعليمية فقط","السياسات الإدارية فقط","المعايير والسياسات المحاسبية للجامعة","السياسات البحثية فقط"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"يعتمد مجلس إدارة الجامعة","options":["استراتيجية الجامعة للاستثمار وسياساته واجراءاته","أسماء العاملين فيها","رواتب موظفيها","مقارها فقط"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"يحدد مجلس إدارة الهيئة","options":["العوائد المستهدفة والية اتخاذ قرار الاستثمار ومتابعة أدائه والتخارج منه","الفوائد الطبية والتخارج منها","الفوائد العلمية والتخارج منها","المراكز البحثية ذات الأطر المنبثقة"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الذي يجوز للجامعة إنشاؤه وفق الضوابط المعتمدة فيما يتعلق بالاستثمار؟","options":["وزارات مستقلة","صناديق للاستثمار أو دمجها أو المساهمة فيها","جامعات حكومية جديدة","إدارات تعليمية"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا يعتمد مجلس إدارة الهيئة بشأن ممثلي الجامعة في مجالس إدارات الشركات والكيانات الأخرى؟","options":["رواتبهم فقط","مدة اجتماعاتهم فقط","ضوابط ترشيحهم وتعيينهم وتحديد حقوقهم وواجباتهم تجاه الجامعة","عدد اجتماعاتهم السنوية فقط"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الإجراء الذي يعتمد مجلس إدارة الهيئة تنظيمه لحماية الجامعة؟","options":["إدارة المخاطر في الجامعة","إدارة القبول","إدارة الأنشطة الطلابية","إدارة المقررات"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا يعتمد مجلس إدارة الهيئة فيما يتعلق بسياسة الإفصاح؟","options":["إجراءات القبول والتسجيل","سياسة الإفصاح وتعاملات ومصالح الجامعة","سياسة الابتعاث فقط","سياسة التوظيف فقط"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا يعتمد مجلس إدارة الهيئة بشأن تأسيس الجامعة للأوقاف؟","options":["ضوابط تأسيس الجامعة للأوقاف داخل المملكة وخارجها وإدارتها وفقًا للإجراءات والنصوص النظامية المتبعة","إنشاء الأوقاف داخل المملكة فقط","إنشاء الأوقاف خارج المملكة فقط","إدارة الأوقاف دون ضوابط"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من الجهة المختصة بتعيين أعضاء مجلس إدارة الجامعة؟","options":["رئيس الجامعة","مجلس إدارة الهيئة","وزارة التعليم","مجلس شؤون الجامعات"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"كيف يتم تعيين رئيس الجامعة؟","options":["بقرار من مجلس الجامعة","بقرار من وزير التعليم","بناءً على ترشيح من المجلس","بالتصويت من أعضاء هيئة التدريس"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الذي يحدده مجلس إدارة الهيئة عند تعيين رئيس الجامعة؟","options":["راتبه فقط","تحديد صلاحياته","مدة عضويته فقط","عدد نوابه"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا تشمل الضوابط والمعايير التي يعتمدها مجلس إدارة الهيئة لعضوية المجلس؟","options":["ضوابط العضوية وقواعد اختيار أعضاء المجلس وعزلهم","تحديد رواتب أعضاء المجلس فقط","اختيار رئيس الجامعة فقط","تحديد عدد الكليات"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الذي يعتمده مجلس إدارة الهيئة لتنظيم أعمال المجلس؟","options":["اللوائح الأكاديمية","القواعد والإجراءات المنظمة لأعمال المجلس","الخطة الدراسية","قواعد قبول الطلاب"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا يعتمد مجلس إدارة الهيئة بشأن أعضاء المجلس واللجان المنبثقة عنه وكبار التنفيذيين؟","options":["سياسة تعيينهم","سياسة مكافآتهم","سياسة ترقياتهم","سياسة تدريبهم"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من الذين يعينهم مجلس إدارة الهيئة في لجنة المراجعة والالتزام؟","options":["رئيس الجامعة ونوابه","عمداء الكليات","أعضاء لجنة المراجعة والالتزام","أعضاء هيئة التدريس"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا يعتمد مجلس إدارة الهيئة بشأن لجنة المراجعة والالتزام؟","options":["قواعد عملها ومهامها ومكافآت أعضائها","البرامج الأكاديمية التي تشرف عليها","عدد موظفي الجامعة","خطط القبول والتسجيل"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الذي يجوز لمجلس إدارة الهيئة تفويضه إلى المجلس أو رئيسه؟","options":["جميع صلاحياته دون استثناء","ما يراه مناسبًا من صلاحياته","صلاحيات رئيس الجامعة فقط","صلاحيات وزارة التعليم"],"answer":1,"explanation":""},{"chapter":1,"page":10,"score":3,"q":"بماذا تتمتع الجامعة وفق المادة الرابعة دون إخلال بالمادة الثالثة من النظام؟","options":["بالاستقلال المالي فقط","بالأهلية والحرية الكاملة في اتخاذ جميع ما يلزم لتحقيق أهدافها","بالاستقلال الأكاديمي فقط","بالحرية في إدارة الكليات فقط"],"answer":1,"explanation":"الصفحة 10"},{"chapter":1,"page":"","score":3,"q":"في أي المجالات تتمتع الجامعة بالحرية الكاملة لتحقيق أهدافها؟","options":["إدارة شؤونها وفروعها وكلياتها ومعاهدها ومراكزها وأقسامها وبرامجها ومرافقها كافة","إدارة الكليات فقط","إدارة البرامج الأكاديمية فقط","إدارة المراكز البحثية فقط"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الحقوق التي يتمتع بها أعضاء هيئة التدريس من الجامعة؟","options":["الحقوق المالية والإدارية فقط","الحقوق الوظيفية فقط","الحقوق البحثية فقط","الحريات والحقوق الأكاديمية والبحثية المتصلة بالبحث العلمي وتطويره ونشر المعرفة وإيجاد البيئة البحثية والتعليمية الملائمة"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الهدف من استخدام الحريات والحقوق الأكاديمية والبحثية؟","options":["زيادة أعداد الطلاب","تنمية معارف الطلاب والطالبات بما يحقق تحصيلاتهم وتحسين كفاءاتهم العلمية ومهاراتهم","زيادة عدد البرامج الأكاديمية","زيادة أعضاء هيئة التدريس"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يقرر ما يتعلق بتطوير المعرفة وتعميقها في هذا الشأن؟","options":["رئيس الجامعة","وزارة التعليم","المجلس","مجلس القسم"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"هل تخضع الجامعة للأنظمة أو اللوائح التي تسري على المؤسسات الأهلية؟","options":["نعم في جميع الحالات","نعم فيما يتعلق بالشؤون المالية فقط","لا تخضع لها","تخضع لها بقرار من رئيس الجامعة"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"هل يخضع أعضاء هيئة التدريس في الجامعة للأنظمة أو اللوائح أو التعليمات التي تسري على الجامعات وهيئات التدريس الأخرى داخل المملكة؟","options":["لا يخضعون لها","يخضعون لها في الشؤون الأكاديمية فقط","يخضعون لها في جميع الحالات","يخضعون لها بعد موافقة وزارة التعليم"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"في أي مستويات تمنح الجامعة شهاداتها؟","options":["البكالوريوس فقط","مستويات التعليم العالي بمختلف درجاتها ودرجات الزمالة وما بعد الدكتوراه وبرامج التعليم المستمر والتعليم عن بعد والتعليم المدمج","الدراسات العليا فقط","الدبلومات المهنية فقط"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما أنواع التعليم التي يجوز للجامعة منح شهادات فيها وفق المادة الرابعة؟","options":["التعليم الحضوري فقط","التعليم عن بعد فقط","التعليم المستمر فقط","التعليم المستمر والتعليم عن بعد والتعليم المدمج"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يقرر منح الجامعة الشهادات الفخرية؟","options":["المجلس","رئيس الجامعة","وزارة التعليم","مجلس القسم"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"بماذا تلتزم الجامعة في مجال الاعتماد الأكاديمي؟","options":["بمعاييرها الداخلية فقط","بأفضل المعايير والممارسات المعمول بها في هذا المجال","بمعايير وزارة التعليم فقط","بمعايير الجامعات المحلية فقط"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"لدى أي جهة داخل المملكة تلتزم الجامعة بأفضل المعايير والممارسات في الاعتماد الأكاديمي؟","options":["وزارة الموارد البشرية والتنمية الاجتماعية","مجلس شؤون الجامعات","هيئة تقويم التعليم والتدريب","وزارة المالية"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"إلى جانب هيئة تقويم التعليم والتدريب، لدى أي جهات تلتزم الجامعة بمعايير الاعتماد الأكاديمي؟","options":["هيئات ومؤسسات الاعتماد الأكاديمي الدولية","الجامعات الحكومية فقط","الوزارات والهيئات المحلية فقط","المؤسسات التدريبية الخاصة فقط"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا تهدف الجامعة إلى أن تكون في مجال التعليم الجامعي؟","options":["جهة تنظيمية محلية","مؤسسة رائدة إقليميًا وعالميًا","مؤسسة تدريبية فقط","جهة متخصصة في التعليم المهني"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"كيف تسهم الجامعة في تنمية الاقتصاد الوطني؟","options":["من خلال زيادة أعداد الطلاب فقط","من خلال التوسع في المباني الجامعية","من خلال تلبية احتياجات سوق العمل والاقتصاد المعرفي","من خلال تقليل البرامج الأكاديمية"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الهدف المتعلق بالبحث العلمي والابتكار والريادة؟","options":["التركيز على التعليم النظري","تقليل المجالات التطبيقية","حصر البحث العلمي في الدراسات العليا","دعم عملية النمو والتطوير وتعزيز البحث العلمي والابتكار والريادة في مختلف المجالات الأكاديمية والتطبيقية"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا تهدف الجامعة إلى رفعه في مجال خدمات التعليم العالي؟","options":["تصنيف خدمات التعليم العالي في مدينة الرياض بشكل خاص وفي المملكة بشكل عام في تقارير التصنيفات الجامعية الدولية","عدد البرامج التدريبية فقط","عدد الطلاب المقبولين","عدد فروع الجامعة"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الذي يحق للجامعة تملكه والتصرف فيه واستثماره؟","options":["المباني فقط","الأراضي فقط","الأموال النقدية فقط","الأصول بما يشمل العقارات والحقوق العينية والفكرية والحصص والأوراق المالية والأصول الثابتة والسائلة والمنقولة"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"وفق ماذا تستثمر الجامعة أموالها المنقولة والأصول المخصصة لها؟","options":["وفق ما يعتمده مجلس إدارة الهيئة في هذا الشأن","وفق قرار وزارة التعليم","وفق قرار رئيس الجامعة فقط","وفق نظام الجامعات فقط"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الذي يجوز للجامعة تأسيسه أو المساهمة فيه؟","options":["وزارات وهيئات حكومية","الشركات وغيرها من المنشآت ذات الأغراض الخاصة","جامعات حكومية أخرى","مؤسسات تعليم عام"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا يجوز للجامعة إنشاؤه في مجال الاستثمار؟","options":["مجالس تعليمية","كليات مستقلة","صناديق الاستثمار ودمجها أو المساهمة فيها","وزارات متخصصة"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"وفق ماذا تمارس الجامعة تأسيس الشركات وصناديق الاستثمار أو المساهمة فيها؟","options":["قرارات الكليات","رغبة المستثمرين فقط","تعليمات وزارة التعليم فقط","الإجراءات والنصوص النظامية المتبعة والضوابط التي يعتمدها مجلس إدارة الهيئة"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الصلاحية التي تملكها الجامعة في مجال الاتفاقيات ومذكرات التفاهم والتعاون؟","options":["إبرام الاتفاقيات ومذكرات التفاهم والتعاون والبروتوكولات والعقود وتبادل الخبرات","إبرام العقود المحلية فقط","توقيع الاتفاقيات الأكاديمية فقط","التعاون مع الجامعات داخل المملكة فقط"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"مع أي جهات يجوز للجامعة إبرام الاتفاقيات وتبادل الخبرات؟","options":["الجامعات الحكومية فقط","الجامعات والمؤسسات الأكاديمية الأخرى والهيئات المحلية والإقليمية والدولية ذات الصلة بأعمالها ومهامها","الجهات المحلية فقط","المؤسسات البحثية داخل المملكة فقط"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"أي من الآتي يُعد من الجهات التي يجوز للجامعة إبرام الاتفاقيات ومذكرات التفاهم والتعاون معها؟","options":["مع الجامعات المحلية فقط","مع وزارة التعليم فقط","مع هيئات ومؤسسات الاعتماد الأكاديمي الدولية","مع الجهات الحكومية فقط"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الذي يجوز للجامعة تطويره وإعداده واعتماده على أسس متخصصة؟","options":["المباني الجامعية","الخطط المالية فقط","برامج التعليم العام","المقررات والمواد الدراسية الأكاديمية والبحثية"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"وفق ماذا تُطور الجامعة المقررات والمواد الدراسية الأكاديمية والبحثية؟","options":["ما يتوافق مع المعمول به في أفضل الجامعات العالمية","احتياجات الجامعة المالية","قرارات الكليات فقط","المناهج المحلية فقط"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما نوع الدورات التي يجوز للجامعة تقديمها للكوادر؟","options":["دورات إدارية فقط","دورات تدريبية وتأهيلية للكوادر الأكاديمية والعلمية والهندسية والطبية والتنفيذية","دورات للطلاب فقط","دورات بحثية فقط"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"وفق أي مستوى تقدم الجامعة الدورات التدريبية والتأهيلية للكوادر؟","options":["وفق البرامج المحلية","وفق احتياجات الأقسام فقط","بحسب المعمول به في أفضل الجامعات العالمية","وفق برامج وزارة التعليم فقط"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الذي يجوز للجامعة إعداده في مجال الخدمات؟","options":["المقررات الدراسية","اللوائح المالية","البرامج الأكاديمية فقط","الدراسات الاستراتيجية والمتخصصة وتقديم الخدمات الاستشارية"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"وفق ماذا تقدم الجامعة الخدمات الاستشارية؟","options":["وفق الضوابط التي يضعها المجلس","وفق قرار رئيس الجامعة فقط","وفق تعليمات وزارة التعليم","وفق قرارات الأقسام"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"أين يجوز للجامعة تأسيس وإدارة الأوقاف؟","options":["داخل المملكة فقط","داخل المملكة وخارجها","خارج المملكة فقط","في مدينة الرياض فقط"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"وفق ماذا تؤسس الجامعة وتدير الأوقاف داخل المملكة وخارجها؟","options":["وفق قرارات رئيس الجامعة فقط","وفق تعليمات وزارة التعليم","وفقًا للإجراءات والنصوص النظامية المتبعة وما يعتمده مجلس إدارة الهيئة من ضوابط","وفق لوائح الكليات"],"answer":2,"explanation":""},{"chapter":1,"page":12,"score":3,"q":"كم عدد أعضاء مجلس إدارة الجامعة؟","options":["الا يقل عن أربعة عشر عضوا","ثمانية عشر عضوًا","تسعة عشر عضوًا","عشرون عضوًا"],"answer":0,"explanation":"الصفحة 12"},{"chapter":1,"page":"","score":3,"q":"من يرأس الجامعة؟","options":["رئيس يعينه مجلس إدارة الهيئة","رئيس ينتخبه أعضاء المجلس","وزير التعليم","رئيس مجلس إدارة الجامعة"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما مدة العضوية في مجلس إدارة الجامعة فيما عدا رئيس الجامعة؟","options":["سنتان غير قابلة للتجديد","أربع سنوات قابلة للتجديد","ثلاث سنوات قابلة للتجديد مرتين","ثلاث سنوات غير قابلة للتجديد"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"كم مرة يمكن تجديد عضوية أعضاء مجلس إدارة الجامعة فيما عدا رئيس الجامعة؟","options":["مرة واحدة","ثلاث مرات","غير قابلة للتجديد","مرتين"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يحدد مكافآت أعضاء مجلس إدارة الجامعة؟","options":["رئيس الجامعة","مجلس إدارة الهيئة","وزارة التعليم","مجلس إدارة الجامعة"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"وفق ماذا تحدد مكافآت أعضاء مجلس إدارة الجامعة؟","options":["وفق سياسة المكافآت المعتمدة","وفق عدد اجتماعات المجلس فقط","وفق قرار رئيس الجامعة","وفق سلم رواتب أعضاء هيئة التدريس"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما السلطة التي يمثلها مجلس إدارة الجامعة في إدارة شؤونها؟","options":["السلطة التنفيذية","السلطة المهيمنة","السلطة الاستشارية","السلطة الرقابية"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الغاية من اختصاص المجلس بإدارة شؤون الجامعة؟","options":["تحقيق أغراضها","زيادة عدد الكليات","إدارة القبول فقط","تحديد ميزانية الهيئة"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا يختص المجلس بوضعه فيما يتعلق بأنشطة الجامعة واستراتيجياتها؟","options":["اللوائح المالية فقط","الهيكل التنظيمي فقط","السياسات والخطط والبرامج اللازمة لتنفيذها","سياسة المكافآت فقط"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"لمن تُمهَّد السياسات المتعلقة بأنشطة الجامعة واستراتيجياتها لاعتمادها؟","options":["رئيس الجامعة","وزارة التعليم","مجلس شؤون الجامعات","مجلس إدارة الهيئة"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا يتولى المجلس بعد اعتماد السياسات المتعلقة بأنشطة الجامعة واستراتيجياتها؟","options":["الإشراف على تنفيذها","إحالتها إلى وزارة التعليم","إعادة صياغتها","إيقاف تنفيذها"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الذي يشرف عليه المجلس بالنسبة لأعمال الجامعة؟","options":["القبول والتسجيل فقط","سير أعمال الجامعة ومراقبة مسيرة نموها وتطورها ومستجداتها والمحافظة على استقلاليتها وتميزها","البرامج الأكاديمية فقط","أعمال الكليات فقط"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"بناءً على اقتراح من يُقر المجلس هيكل الجامعة التنظيمي؟","options":["مجلس إدارة الهيئة","وزير التعليم","رئيس الجامعة","عمداء الكليات"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يقر اللوائح المنظمة للشؤون الأكاديمية والإدارية والمالية والداخلية للجامعة؟","options":["مجلس إدارة الجامعة","رئيس الجامعة","مجلس إدارة الهيئة","وزارة التعليم"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يرشح رئيس الجامعة؟","options":["المجلس","وزارة التعليم","مجلس شؤون الجامعات","رئيس مجلس إدارة الهيئة"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يعين نواب رئيس الجامعة والمستشار القانوني العام للجامعة وعمداء الكليات والمعاهد؟","options":["رئيس الجامعة منفردًا","مجلس إدارة الهيئة","المجلس بناءً على توصية من رئيس الجامعة","وزارة التعليم"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"بناءً على ماذا يتم تعيين نواب رئيس الجامعة والمستشار القانوني العام وعمداء الكليات والمعاهد؟","options":["ترشيح مجلس إدارة الهيئة","توصية من رئيس الجامعة","انتخاب أعضاء هيئة التدريس","قرار وزارة التعليم"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"وفق ماذا يتم تعيين أعضاء هيئة التدريس؟","options":["وفق اللوائح","وفق قرار رئيس الجامعة فقط","وفق نظام الخدمة المدنية","وفق قرارات الأقسام العلمية فقط"],"answer":0,"explanation":""},{"chapter":1,"page":13,"score":3,"q":"بناءً على توصية من تتم الموافقة على إنشاء الفروع والكليات والمعاهد والأقسام ومراكز الأبحاث والبرامج؟","options":["مجلس إدارة الهيئة","رئيس الجامعة","وزارة التعليم","مجلس شؤون الجامعات"],"answer":1,"explanation":"الصفحة 13"},{"chapter":1,"page":"","score":3,"q":"من يحدد الرسوم الدراسية والمقابل المالي للخدمات والأعمال التي يرى المجلس تحصيلها؟","options":["رئيس الجامعة","مجلس إدارة الهيئة","المجلس","وزارة التعليم"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الذي يوافق عليه المجلس فيما يتعلق بميزانية الجامعة؟","options":["مشروع ميزانية الجامعة وحسابها الختامي وتقريرها السنوي وتقرير مراجع الحسابات","الميزانية فقط","الحساب الختامي فقط","تقرير مراجع الحسابات فقط"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"إلى أي جهة تُمهَّد الوثائق المالية للجامعة للنظر فيها؟","options":["وزارة التعليم","مجلس شؤون الجامعات","وزارة المالية","مجلس إدارة الهيئة"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما صلاحية المجلس بشأن تأسيس الشركات والمنشآت ذات الأغراض الخاصة؟","options":["الموافقة على تأسيسها أو المساهمة فيها وإنشاء صناديق الاستثمار ودمجها أو المساهمة فيها وتحديد صلاحيتها والإشراف على إعداد وثائق تأسيسها","الإشراف عليها فقط","الموافقة على الشركات دون صناديق الاستثمار","تحديد أسمائها فقط"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الشرط عند تأسيس الشركات والمنشآت وصناديق الاستثمار أو المساهمة فيها؟","options":["أن تكون داخل المملكة فقط","ألا تتعارض مع الإجراءات والنصوص النظامية المتبعة والإجراءات التي يضعها المجلس","أن تكون مملوكة بالكامل للجامعة","أن تقتصر على النشاط الأكاديمي"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يوافق على إبرام الاتفاقيات ومذكرات التفاهم والتعاون والبروتوكولات والعقود؟","options":["رئيس الجامعة","مجلس إدارة الجامعة","مجلس إدارة الهيئة","المستشار القانوني العام"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يجوز للمجلس تفويضه بتوقيع الاتفاقيات ومذكرات التفاهم والتعاون والبروتوكولات والعقود؟","options":["رئيس الجامعة","رئيس مجلس إدارة الهيئة","المستشار القانوني العام","أحد عمداء الكليات"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا يعتمد المجلس بشأن طلبات الدعم المالي للجامعة؟","options":["قيمة الدعم فقط","مصادر الدعم فقط","السياسات المنظمة للموافقة على طلبات الدعم المالي وآلية تحفيزه وقبول الهبات والإعانات والمنح والوصايا والتبرعات والأوقاف والمساهمات الأخرى","طلبات الدعم الحكومية فقط"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من أي نطاق يجوز قبول الهبات والإعانات والمنح والوصايا والتبرعات والأوقاف والمساهمات الأخرى؟","options":["داخل المملكة فقط","خارج المملكة فقط","من الجهات الحكومية فقط","من داخل المملكة أو خارجها"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"إلى أي جهة تُرفع سياسات الدعم المالي والهبات والإعانات والمنح والتبرعات والأوقاف والمساهمات الأخرى للنظر في اعتمادها؟","options":["مجلس إدارة الهيئة","وزارة التعليم","وزارة المالية","مجلس شؤون الجامعات"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يوافق على تملك الأصول والتصرف بها واستثمارها؟","options":["رئيس الجامعة","المجلس","مجلس إدارة الهيئة","وزارة المالية"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يوافق على عقد القروض وغيرها من صور التمويل؟","options":["مجلس إدارة الجامعة","رئيس الجامعة","وزارة التعليم","مجلس إدارة الهيئة"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"وفق ماذا تتم الموافقة على عقد القروض وغيرها من صور التمويل؟","options":["وفق قرار رئيس الجامعة","وفق ضوابط وزارة المالية","وفق الضوابط التي يعتمدها مجلس إدارة الهيئة","وفق قرارات الكليات"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من مهام مجلس الجامعة تحديد ؟","options":["مرة كل ثلاث سنوات","لكل فصل دراسي","الموافقة على التقويم الدراسي لكل سنة دراسية وموعد مراسم التخرج دون التقيد بأي تقويم دراسي آخر","عند تغيير الخطة الدراسية فقط"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الذي تنظمه استراتيجية الجامعة للاستثمار وسياساتها وإجراءاتها؟","options":["تحديد العوائد المستهدفة وآلية اتخاذ قرار الاستثمار ومتابعة أدائه ونتائجه","تحديد الرسوم الدراسية فقط","تحديد عدد الشركات فقط","تحديد ميزانية الجامعة فقط"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من الجهة التي تعتمد استراتيجية الجامعة للاستثمار وسياساته وإجراءاته بعد رفعها إليها؟","options":["وزارة المالية","مجلس إدارة الهيئة","وزارة التعليم","مجلس شؤون الجامعات"],"answer":1,"explanation":""},{"chapter":1,"page":14,"score":3,"q":"ماذا يضع المجلس فيما يتعلق بالمعايير والسياسات المحاسبية للجامعة؟","options":["وضع المعايير والسياسات المحاسبية بما يتوافق مع المعايير والسياسات المستقرة المعمول بها في المملكة","سياسات الاستثمار فقط","معايير القبول الأكاديمي","سياسات الموارد البشرية"],"answer":0,"explanation":"الصفحة 14"},{"chapter":1,"page":"","score":3,"q":"من الجهة التي تُرفع إليها المعايير والسياسات المحاسبية للجامعة للنظر في اعتمادها؟","options":["مجلس إدارة الهيئة","رئيس الجامعة","وزارة المالية","المجلس"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الذي يختص المجلس بتحديده فيما يتعلق بالسنة المالية للجامعة؟","options":["بداية السنة المالية ونهايتها.","نهاية السنة المالية","بداية السنة المالية","مدة السنة المالية"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الذي يختص به المجلس بشأن ممثلي الجامعة في مجالس إدارة الشركات والكيانات التي تمتلكها الجامعة أو تساهم فيها؟","options":["وضع ضوابط ترشيح ممثلي الجامعة وتعيينهم، وتحديد حقوقهم وواجباتهم تجاه الجامعة، ورفعها إلى مجلس إدارة الهيئة للنظر في اعتمادها.","قواعد قبول الطلاب","سياسة المكافآت فقط","اللوائح الأكاديمية"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"إلى أي جهة تُرفع ضوابط ترشيح وتعيين ممثلي الجامعة في مجالس إدارة الشركات والكيانات الأخرى للنظر في اعتمادها؟","options":["وزارة التعليم","مجلس إدارة الهيئة","وزارة المالية","رئيس الجامعة"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الذي يختص المجلس بإقراره فيما يتعلق بالتواصل الإعلامي في الجامعة؟","options":["السياسات المنظمة للتواصل الأكاديمي.","ضوابط التواصل مع الجامعات الدولية.","الإجراءات المنظمة للتواصل الإعلامي، بناءً على ما يقترحه رئيس الجامعة.","الإجراءات المنظمة للعلاقات الطلابية."],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا يضع المجلس فيما يتعلق بإدارة المخاطر في الجامعة؟","options":["وضع إجراءات ونظم إدارة المخاطر في الجامعة","سياسة الاستثمار","نظام القبول والتسجيل","اللوائح الدراسية"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"إلى أي جهة تُرفع إجراءات ونظم إدارة المخاطر في الجامعة للنظر في اعتمادها؟","options":["رئيس الجامعة","مجلس إدارة الهيئة","وزارة التعليم","مجلس شؤون الجامعات"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يعين المراقب المالي الداخلي للجامعة؟","options":["مجلس إدارة الهيئة","رئيس الجامعة","المجلس","وزارة المالية"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا يضع المجلس بشأن تأسيس الجامعة للأوقاف؟","options":["وضع ضوابط تأسيس الجامعة للأوقاف داخل المملكة وخارجها وإدارتها","ضوابط الأوقاف داخل المملكة فقط","سياسة التبرعات فقط","ضوابط الاستثمار العقاري فقط"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"إلى أي جهة تُرفع ضوابط تأسيس الجامعة للأوقاف وإدارتها للنظر في اعتمادها؟","options":["وزارة التعليم","مجلس إدارة الهيئة","وزارة المالية","رئيس الجامعة"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا يضع المجلس فيما يتعلق بالإفصاح وتعارض المصالح في الجامعة؟","options":["سياسة الاستثمار","سياسة الإفصاح وتعارض المصالح في الجامعة","سياسة التوظيف","سياسة القبول"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"إلى أي جهة تُرفع سياسة الإفصاح وتعارض المصالح للنظر في اعتمادها؟","options":["مجلس إدارة الهيئة","وزارة التعليم","رئيس الجامعة","وزارة المالية"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يضع سياسة المكافآت ؟","options":["أعضاء هيئة التدريس فقط","موظفي الجامعة فقط","مجلس الجامعة","الطلاب والباحثين"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"إلى أي جهة تُرفع سياسة مكافآت أعضاء المجلس واللجان المنبثقة عنه وكبار التنفيذيين للنظر في اعتمادها؟","options":["رئيس الجامعة","مجلس إدارة الهيئة","وزارة المالية","مجلس شؤون الجامعات"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا تشمل ضوابط ومعايير العضوية في المجلس التي يضعها المجلس؟","options":["ضوابط العضوية وقواعد اختيار أعضاء المجلس وعزلهم","تحديد مكافآت أعضاء المجلس فقط","تحديد مدة الدراسة","تحديد عدد الكليات"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"إلى أي جهة تُرفع ضوابط ومعايير العضوية في المجلس للنظر في اعتمادها؟","options":["وزارة التعليم","رئيس الجامعة","مجلس إدارة الهيئة","مجلس شؤون الجامعات"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"متى يجوز للمجلس تشكيل لجنة مؤقتة من بين أعضائه أو من غيرهم؟","options":["عند الحاجة وفق ما يقدره","مرة واحدة سنويًا","بموافقة وزارة التعليم فقط","عند غياب رئيس الجامعة فقط"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الغرض من تشكيل المجلس لجنة مؤقتة؟","options":["إدارة الجامعة بدلًا من المجلس","إنجاز مهمة يحددها المجلس","اختيار أعضاء هيئة التدريس","إعداد الميزانية فقط"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يحدد مهام اللجنة المؤقتة ويسمي رئيسها؟","options":["رئيس الجامعة","مجلس إدارة الهيئة","المجلس","وزارة التعليم"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا يحدد المجلس للجنة المؤقتة إلى جانب مهامها ورئيسها؟","options":["أعضاءها فقط","مدة عملها وأعضاءها وتحدد لهم مكافآتهم وفقًا لسياسة المكافآت المعتمدة","ميزانيتها فقط","مقر اجتماعاتها فقط"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"إلى من يجوز للمجلس تفويض بعض صلاحياته؟","options":["إلى رئيس الجامعة فقط","إلى رئيسه أو أي من أعضائه أو من مسؤولي الجامعة","إلى وزارة التعليم","إلى عمداء الكليات فقط"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"وفق ماذا يتم تفويض المجلس لبعض صلاحياته؟","options":["وفق قرار رئيس الجامعة","وفقا  لما يقتضيه سير العمل في الجامعة","وفق موافقة وزارة التعليم","وفق اللوائح الأكاديمية فقط"],"answer":1,"explanation":""},{"chapter":1,"page":15,"score":3,"q":"من يدعو إلى اجتماعات مجلس إدارة الجامعة؟","options":["رئيس الجامعة","رئيس المجلس","أمين المجلس","مجلس إدارة الهيئة"],"answer":1,"explanation":"الصفحة 15"},{"chapter":1,"page":"","score":3,"q":"أين تُعقد اجتماعات مجلس إدارة الجامعة؟","options":["في مقر الجامعة","في مقر الهيئة فقط","في وزارة التعليم","في أي مكان يحدده رئيس الجامعة"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يجوز له أن يقرر عقد اجتماع مجلس إدارة الجامعة في مكان آخر غير مقر الجامعة؟","options":["رئيس الجامعة","مجلس إدارة الهيئة","رئيس المجلس","أمين المجلس"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"كم مرة يجتمع مجلس إدارة الجامعة كحد أدنى؟","options":["مرة كل شهر","مرة كل شهرين","ثلاث مرات سنويًا","مرة كل ثلاثة أشهر"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"متى يجوز عقد اجتماع للمجلس إضافة إلى اجتماعاته الدورية؟","options":["إذا طلب ذلك ثلث من الأعضاء على الأقل أو وفق ما يقدره رئيس المجلس","إذا طلب ذلك عضو واحد","بقرار من رئيس الجامعة فقط","مرة واحدة إضافية في السنة"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"قبل كم يوم على الأقل يجب توجيه الدعوة لاجتماع مجلس إدارة الجامعة؟","options":["ثلاثة أيام","سبعة أيام","خمسة أيام","عشرة أيام"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الذي يجب أن تتضمنه الدعوة لاجتماع مجلس إدارة الجامعة؟","options":["مكان الاجتماع فقط","جدول الأعمال","أسماء الحاضرين فقط","محضر الاجتماع السابق فقط"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"متى يُعد اجتماع مجلس إدارة الجامعة صحيحًا؟","options":["بحضور نصف الأعضاء فقط","بحضور جميع الأعضاء","بحضور رئيس الجامعة فقط","بحضور أغلبية الأعضاء على الأقل بما فيهم رئيس المجلس أو نائبه"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"بأي أغلبية تصدر قرارات مجلس إدارة الجامعة؟","options":["بأغلبية أصوات الأعضاء الحاضرين على الأقل","بإجماع الأعضاء","بأغلبية جميع أعضاء المجلس","بموافقة رئيس المجلس فقط"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا يحدث عند تساوي الأصوات في مجلس إدارة الجامعة؟","options":["يؤجل القرار للاجتماع التالي","يرجح الجانب الذي يصوت معه رئيس الاجتماع","يُلغى التصويت","يعاد التصويت مباشرة"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"هل يجوز لعضو مجلس إدارة الجامعة الامتناع عن التصويت؟","options":["يجوز دون قيد","يجوز بموافقة رئيس المجلس","لا يجوز","يجوز إذا كان التصويت سريًا"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"هل يجوز لعضو مجلس إدارة الجامعة تفويض عضو آخر بالتصويت نيابة عنه عند غيابه؟","options":["يجوز مرة واحدة","يجوز بموافقة المجلس","يجوز بموافقة رئيس المجلس","لا يجوز"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"أين تثبت مداولات مجلس إدارة الجامعة وقراراته؟","options":["في محاضر يوقعها رئيس الاجتماع والأعضاء الحاضرون","في التقرير السنوي","في سجلات الكليات","في قرارات رئيس الجامعة"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما حق العضو الذي يعترض على أي قرار للمجلس؟","options":["إيقاف القرار","إثبات اعتراضه مسببًا في المحضر","إلغاء التصويت","طلب إعادة الاجتماع إلزاميًا"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"هل يحق للمجلس دعوة من يرى الاستعانة به لحضور اجتماعاته؟","options":["مرة واحدة فقط","مرتين سنويًا","نعم دون أن يكون له الحق في التصويت","ثلاث مرات سنويًا"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"هل يملك من يستعين به المجلس لحضور اجتماعاته حق التصويت؟","options":["نعم في جميع القرارات","نعم بموافقة رئيس المجلس","نعم إذا كان من موظفي الجامعة","لا"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يضع القواعد المنظمة لاجتماعات مجلس إدارة الجامعة؟","options":["مجلس الجامعة","رئيس الجامعة","أمين المجلس","مجلس إدارة الهيئة"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"كيف يجوز عقد اجتماعات مجلس إدارة الجامعة؟","options":["حضوريًا فقط","حضوريًا أو من خلال وسائل التقنية الحديثة","عن بعد فقط","بمقر الجامعة فقط"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"كيف يجوز اتخاذ القرارات في الحالات التي تستدعي عرضها على أعضاء المجلس بالتمرير؟","options":["بقرار منفرد من رئيس الجامعة","بالتصويت السري فقط","سواء خلال الاجتماعات أو بعرضها على أعضاء المجلس بالتمرير","خلال الاجتماعات الحضورية فقط"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"إلى أي جهة تُرفع الأحكام المتعلقة باجتماعات المجلس والقرارات بالتمرير للنظر في اعتمادها؟","options":["وزارة التعليم","رئيس الجامعة","مجلس شؤون الجامعات","مجلس إدارة الهيئة"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يعين أمين مجلس إدارة الجامعة؟","options":["المجلس","رئيس الجامعة","مجلس إدارة الهيئة","رئيس المجلس"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما أبرز مهمة لأمين مجلس إدارة الجامعة؟","options":["اعتماد قرارات المجلس","إعداد جدول أعمال المجلس وتوجيه الدعوة إلى الأعضاء وأمانة سر الاجتماعات","التصويت بدلًا من الأعضاء","تعيين أعضاء المجلس"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يتولى إعداد محاضر اجتماعات مجلس إدارة الجامعة؟","options":["رئيس الجامعة","رئيس المجلس","أمين المجلس","مجلس إدارة الهيئة"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يتولى تبليغ القرارات التي يصدرها مجلس إدارة الجامعة؟","options":["رئيس الجامعة","رئيس المجلس","مجلس إدارة الهيئة","أمين المجلس"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يحدد مهام أمين المجلس الأخرى؟","options":["المجلس","رئيس الجامعة","مجلس إدارة الهيئة","وزارة التعليم"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يصدر قرار تعيين أمين المجلس ويحدد أجره وميزانيته المالية؟","options":["رئيس الجامعة","المجلس","مجلس إدارة الهيئة","رئيس المجلس"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"وفق ماذا يحدد أجر أمين المجلس وميزانيته المالية؟","options":["وفق قرار رئيس الجامعة","وفق نظام الجامعات","وفق ما تحدده اللوائح","وفق سياسة المكافآت"],"answer":2,"explanation":""},{"chapter":1,"page":16,"score":3,"q":"يكون للجامعة مجالس؟","options":["علمية وأكاديمية","علمي فقط","أكاديمي فقط","لجان أكاديمية فقط"],"answer":0,"explanation":"الصفحة 16"},{"chapter":1,"page":"","score":3,"q":"كيف يتم تعيين أعضاء ورؤساء المجالس العلمية والأكاديمية؟","options":["بقرار من رئيس الجامعة","بقرار من مجلس إدارة الهيئة","بقرار من المجلس","بالانتخاب"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يحدد مهام المجالس العلمية والأكاديمية وآلية عملها؟","options":["رئيس الجامعة","المجلس","مجلس إدارة الهيئة","وزارة التعليم"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"كيف تؤدي المجالس العلمية والأكاديمية مهامها من الناحية الفنية؟","options":["تحت إشراف رئيس الجامعة مباشرة","وفق قرارات مجلس إدارة الهيئة","بالتنسيق مع وزارة التعليم","باستقلالية من الناحية الفنية العلمية والأكاديمية"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما هي اللجان الدائمة التي يمكن تشكيلها كل سنتين ؟","options":["اللجنة التنفيذية ، لجنة الاستثمار، لجنة الترشيحات والمكافآت","لجنة القبول","لجنة الدراسات العليا","لجنة التوظيف"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"كل كم سنة يشكل المجلس اللجان الدائمة الواردة في المادة التاسعة؟","options":["كل سنة","كل ثلاث سنوات","كل سنتين","كل أربع سنوات"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"أي اللجان الآتية تعد من اللجان الدائمة التي يشكلها المجلس؟","options":["لجنة القبول","اللجنة التنفيذية","لجنة الدراسات العليا","لجنة البحث العلمي"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما اللجنة الدائمة المختصة بالاستثمار وفق المادة التاسعة؟","options":["لجنة المراجعة","لجنة الترشيحات والمكافآت","اللجنة التنفيذية","لجنة الاستثمار"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"أي اللجان الآتية من اللجان الدائمة التي يشكلها المجلس؟","options":["لجنة الترشيحات والمكافآت","لجنة القبول والتسجيل","لجنة الابتعاث","لجنة الشؤون الأكاديمية"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يحدد مهام كل لجنة من اللجان الدائمة وقواعد عملها؟","options":["رئيس الجامعة","مجلس إدارة الهيئة","المجلس","رئيس كل لجنة"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يحدد مكافآت أعضاء اللجان الدائمة؟","options":["رئيس الجامعة","المجلس","مجلس إدارة الهيئة","وزارة التعليم"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"وفق ماذا تحدد مكافآت أعضاء اللجان الدائمة؟","options":["وفق اللوائح الأكاديمية","وفق قرار رئيس الجامعة","وفق عدد الاجتماعات","وفقًا لسياسة المكافآت المعتمدة"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من هو كبير الإداريين التنفيذيين في الجامعة؟","options":["رئيس مجلس إدارة الهيئة","رئيس الجامعة","أمين المجلس","المستشار القانوني العام"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما هي مسؤوليات مدير الجامعة؟","options":["إدارة شؤون الجامعة وترتكز مسؤولياته في حدود النظام","إدارة شؤون الجامعة حسب ما يراه","إدارة شؤون الجامعة بعد الرجوع الى وزير التعليم","إدارة الشؤون المالية فقط"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يحدد صلاحيات رئيس الجامعة إلى جانب ما ورد في النظام؟","options":["المجلس","وزارة التعليم","مجلس شؤون الجامعات","مجلس إدارة الهيئة"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"إلى من تُرفع قرارات تعيين أعضاء المجلس ورئيس الجامعة ونوابه وعمداء الكليات والمعاهد ورؤساء الأقسام ونوابهم أو وكلائهم ورؤساء المجالس العلمية والأكاديمية وغيرهم من القيادات الأكاديمية في الجامعة؟","options":["إلى وزير التعليم","إلى رئيس مجلس الوزراء","إلى مجلس إدارة الهيئة","إلى مجلس شؤون الجامعات"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"أي من القرارات الآتية تُرفع إلى رئيس مجلس الوزراء؟","options":["قرارات تعيين أعضاء المجلس ورئيس الجامعة ونوابه والقيادات الأكاديمية المحددة في المادة","قرارات قبول الطلاب","قرارات اعتماد المقررات الدراسية","قرارات الشؤون المالية اليومية"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"متى تكون قرارات تعيين كل من أعضاء المجلس ورئيس الجامعة ونوابه وعمداء الكليات والمعاهد ورؤساء الأقسام ونوابهم او وكلائهم ورؤساء المجالس العلمية والأكاديمية وغيرهم من القيادات الاكاديمية في الجامعة نافذة؟","options":["من تاريخ صدورها مباشرة","بعد موافقة وزير التعليم","بعد مضي ثلاثين يومًا","بعد موافقة رئيس مجلس الوزراء عليها"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من بين الآتي ممن تشملهم قرارات التعيين التي تُرفع إلى رئيس مجلس الوزراء؟","options":["رؤساء المجالس العلمية والأكاديمية","طلاب الدراسات العليا","موظفو الإدارات المساندة","الباحثون المتعاونون"],"answer":0,"explanation":""},{"chapter":1,"page":17,"score":3,"q":"لأحكام أي نظام يخضع منسوبو جامعة الملك سعود؟","options":["نظام الجامعات","نظام العمل ونظام التامينات الاجتماعية","نظام الخدمة المدنية","نظام التعليم العالي"],"answer":1,"explanation":"الصفحة 17"},{"chapter":1,"page":"","score":3,"q":"ما الذي يجوز للجامعة تتقاضي رسوم مقابله بعد موافقة المجلس؟","options":["الخدمات الاستشارية فقط","البرامج البحثية فقط","ما تقدمه من برامج دراسية وتدريبية وتأهيلية وما في حكمها أو غيرها من برامج","المقررات الدراسية فقط"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا يجوز للجامعة تحصيل مقابل مالي عنه بعد موافقة المجلس؟","options":["ما تجريه من بحوث علمية أو ما تقدمه من خدمات أو استشارات لجهات داخل المملكة وخارجها","الخدمات المقدمة داخل المملكة فقط","البحوث العلمية دون الاستشارات","البرامج الدراسية فقط"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"لأي جهات يجوز للجامعة تقديم البحوث العلمية أو الخدمات أو الاستشارات مقابل مالي؟","options":["للجهات الحكومية فقط","لجهات داخل المملكة وخارجها","للجهات داخل المملكة فقط","للجامعات فقط"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"بعد وضع قواعد يمكن تقديم مكافآت او حوافز لمن يلتحق بها ؟","options":["للباحثين من خارج الجامعة","أعضاء هيئة التدريس فقط","الطلاب والطالبات","الموظفون الإداريون فقط"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يضع اللوائح التي تنظم ما يتصل بإدارة الحرم الجامعي؟","options":["رئيس الجامعة","المجلس","مجلس إدارة الهيئة","وزارة التعليم"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا تنظم لوائح إدارة الحرم الجامعي فيما يتعلق بالطلاب والطالبات ومنسوبي الجامعة؟","options":["سلوك الطلاب والطالبات ومنسوبي الجامعة من أعضاء هيئة التدريس وغيرهم من الموظفين داخل الحرم الجامعي","سلوك الطلاب فقط","سلوك أعضاء هيئة التدريس فقط","سلوك الموظفين الإداريين فقط"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"أي من الأعمال الآتية تنظمها لوائح إدارة الحرم الجامعي؟","options":["أعمال القبول والتسجيل فقط","أعمال البحث العلمي فقط","أعمال التخطيط والأمن العمراني والأعمال الإنشائية وأعمال التشغيل والصيانة داخل الحرم الجامعي","أعمال الابتعاث فقط"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الذي يجب أن تتوافق معه لوائح إدارة الحرم الجامعي؟","options":["الأنظمة المحلية ذات العلاقة فقط","قرارات رئيس الجامعة","لوائح وزارة التعليم","الأنظمة المحلية ذات العلاقة مع مراعاة النظم المعتمدة لحوكمة المناطق الخاصة داخل مدينة الرياض"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الذي يجب مراعاته إلى جانب الأنظمة المحلية ذات العلاقة عند وضع لوائح إدارة الحرم الجامعي؟","options":["النظم المعتمدة لحوكمة المناطق الخاصة داخل مدينة الرياض","معايير القبول في الجامعات","نظام العمل فقط","معايير التصنيف الجامعي"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يعتمد النظم  لحوكمة المناطق الخاصة داخل مدينة الرياض؟","options":["المجلس","الهيئة","رئيس الجامعة","وزارة التعليم"],"answer":1,"explanation":""},{"chapter":1,"page":18,"score":3,"q":"للمجلس ان يكون مجلسًا استشاريًا من؟","options":["أعضاء محليين أو دوليين","أعضاء هيئة التدريس فقط","أعضاء الجامعة فقط","أعضاء محليين اقليميين"],"answer":0,"explanation":"الصفحة 18"},{"chapter":1,"page":"","score":3,"q":"على أي أساس يتم اختيار أعضاء المجلس الاستشاري؟","options":["الأقدمية الوظيفية","قدراتهم القيادية وكفاءاتهم العلمية وتجربتهم العملية في المجالات التي تخدم الجامعة","عدد سنوات الخدمة في الجامعة","مؤهلاتهم الإدارية فقط"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الدور الذي يتولاه المجلس الاستشاري؟","options":["إدارة الجامعة مباشرة","اعتماد ميزانية الجامعة","تعيين أعضاء هيئة التدريس","تقديم المشورة للمجلس ولرئيس الجامعة حول تطوير أداء الجامعة"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"لمن يقدم المجلس الاستشاري المشورة حول تطوير أداء الجامعة؟","options":["للمجلس ولرئيس الجامعة","لمجلس إدارة الهيئة فقط","لوزارة التعليم","لعمداء الكليات فقط"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يحدد معايير ترشيح وتعيين أعضاء المجلس الاستشاري وتنظيم اجتماعاته ومكافآت أعضائه؟","options":["رئيس الجامعة","المجلس","مجلس إدارة الهيئة","وزارة التعليم"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ماذا يجوز للجامعة قبوله بعد موافقة المجلس؟","options":["القروض فقط","الهبات والإعانات والمنح والوصايا والتبرعات والأوقاف وأي مساهمة أخرى من داخل المملكة أو خارجها","المنح الحكومية فقط","التبرعات من داخل المملكة فقط"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من الجهة التي يجب أن توافق على قبول الجامعة للهبات والإعانات والمنح والوصايا والتبرعات والأوقاف؟","options":["رئيس الجامعة","مجلس إدارة الهيئة","المجلس","وزارة التعليم"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من أين يجوز للجامعة قبول الهبات والإعانات والمنح والوصايا والتبرعات والأوقاف والمساهمات الأخرى؟","options":["من داخل المملكة فقط","من خارج المملكة فقط","من الجهات الحكومية فقط","من داخل المملكة أو خارجها"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما دور أعضاء المجلس تجاه الهبات والإعانات والمنح والوصايا والتبرعات والأوقاف والمساهمات للجامعة؟","options":["تحديد قيمتها","العمل على تشجيع تقديمها للجامعة","قبولها دون موافقة المجلس","قصرها على الجهات المحلية"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الذي لا يجوز أن يكون لعضو المجلس أو لأي من منسوبي الجامعة في عقود الجامعة؟","options":["مصلحة شخصية","صفة إدارية","مسؤولية وظيفية","مشاركة أكاديمية"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يشملهم حظر وجود مصلحة شخصية في عقود الجامعة؟","options":["أعضاء المجلس فقط","أعضاء هيئة التدريس فقط","عضو المجلس وأي من منسوبي الجامعة من أعضاء هيئة التدريس وغيرهم من الموظفين","الموظفون الإداريون فقط"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الاستثناء من حظر وجود مصلحة شخصية في عقود الجامعة؟","options":["إذا وافق رئيس الجامعة","إذا أُفصح عنها واتُّبعت الإجراءات والسياسات المعتمدة في هذا الشأن","إذا كانت المصلحة غير مالية","إذا وافق عضو المجلس المعني"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"وفق ما يتم التعامل مع الإفصاح عن المصلحة الشخصية في عقود الجامعة؟","options":["وفقًا لما يعتمده مجلس إدارة الهيئة في هذا الشأن","وفق قرار رئيس الجامعة فقط","وفق تعليمات وزارة التعليم","وفق قرار عضو المجلس"],"answer":0,"explanation":""},{"chapter":1,"page":19,"score":3,"q":"من موارد الجامعة حسب المادة الثامنة عشر؟","options":["ما قد يخصص لها من إعانات حكومية","القروض وغير ذلك من صور التمويل","الهبات والإعانات والمنح والوصايا والتبرعات والأوقاف والمساهمات الأخرى","جميع ما ذكر"],"answer":3,"explanation":"الصفحة 19"},{"chapter":1,"page":"","score":3,"q":"من ضمن موارد الجامعة حسب المادة الثامنة عشر؟","options":["الرسوم الدراسية والمقابل المالي الذي تتقاضاه نظير الخدمات والاعمال التي تقدمها","عوائد استثماراتها وريع أوقافها وأملاكها","عوائد الأوقاف فقط","الرسوم الدراسية"],"answer":[0,1],"explanation":""},{"chapter":1,"page":"","score":3,"q":"من ضمن موارد الجامعة حسب المادة الثامنة عشر؟","options":["الرسوم الدراسية فقط","الهبات فقط","الموارد المالية الأخرى التي يقرها المجلس على الا تتعارض مع أهداف الجامعة وطبيعة نشاطها","عوائد الأوقاف فقط"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"أين تودع جميع إيرادات الجامعة؟","options":["في حساب وزارة التعليم","في أي من البنوك المرخص لها بالعمل في المملكة","في البنك المركزي فقط","في حساب مجلس إدارة الهيئة"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"وفق ماذا يُصرف من إيرادات الجامعة المودعة في البنوك المرخصة؟","options":["قرار رئيس الجامعة","سياسة مجلس إدارة الهيئة","ميزانية الجامعة","تعليمات وزارة التعليم"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"يتولى تدقيق حسابات الجامعة وسجلاتها المالية؟","options":["مراجع حسابات مرخص واحد أو أكثر","المراقب المالي الداخلي فقط","وزارة المالية","رئيس الجامعة"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يعين مراجع الحسابات المرخص للجامعة؟","options":["المجلس","مجلس إدارة الهيئة","رئيس الجامعة","لجنة المراجعة والالتزام"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"هل يجوز إعادة تعيين مراجع الحسابات للجامعة؟","options":["لا يجوز مطلقًا","يجوز لمرة واحدة فقط","يجوز بعد ثلاث سنوات","يجوز إعادة تعيينه"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"إلى أي جهة يقدم مراجع الحسابات تقريره؟","options":["لجنة المراجعة والالتزام","رئيس الجامعة","مجلس إدارة الهيئة","وزارة المالية"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"متى يجوز لمراجع الحسابات تقديم تقريره مباشرة إلى المجلس؟","options":["في نهاية كل سنة فقط","إذا تراءى له ما يدعو إلى ذلك","بعد موافقة رئيس الجامعة","عند طلب وزارة المالية"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"على أي أساس يراجع مراجع الحسابات حسابات الجامعة وسجلاتها المحاسبية؟","options":["وفق لوائح الجامعة الداخلية فقط","وفق تعليمات رئيس الجامعة","وفق المعايير المحاسبية المعتمدة","وفق معايير الجامعات الدولية فقط"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"ما الذي يجب على مراجع الحسابات التحقق منه فيما يتعلق بالميزانية والحسابات الختامية؟","options":["زيادة إيرادات الجامعة","مطابقة الميزانية والحسابات الختامية للسجلات المالية والمحاسبية","تحقيق فائض مالي","تخفيض المصروفات"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"كيف يجب أن تكون السجلات المالية والمحاسبية للجامعة؟","options":["مختصرة وسنوية","سرية فقط","إلكترونية فقط","دقيقة ومتوافقة مع القواعد المحاسبية السليمة"],"answer":3,"explanation":""},{"chapter":1,"page":20,"score":3,"q":"ماذا تمسك الجامعة وفق المادة العشرين؟","options":["السجلات الأكاديمية فقط","تمسك السجلات والدفاتر الإدارية والمحاسبية التي تحتاجها","الدفاتر المالية فقط","سجلات الموظفين فقط"],"answer":1,"explanation":"الصفحة 20"},{"chapter":1,"page":"","score":3,"q":"وفق ماذا تمسك الجامعة سجلاتها ودفاترها الإدارية والمحاسبية؟","options":["وفق المعايير والسياسات المحاسبية المعتمدة","وفق تعليمات رئيس الجامعة","وفق نظام العمل","وفق اللوائح الأكاديمية"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"كيف يكون التسجيل والقيد في سجلات الجامعة ودفاترها؟","options":["شهريًا","إلكترونيًا فقط","أولًا بأول","في نهاية السنة المالية"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"أين تحفظ السجلات والدفاتر الإدارية والمحاسبية للجامعة؟","options":["في مجلس إدارة الهيئة","في وزارة المالية","في الكليات","في مقر الجامعة الرئيس"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"بأي لغة تبرم الجامعة العقود والاتفاقيات داخل المملكة وخارجها؟","options":["اللغة العربية","باللغة الإنجليزية","بالعربية والإنجليزية معًا إلزاميًا","باللغة التي يحددها الطرف الآخر"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"متى يجوز للجامعة استخدام لغة أخرى في العقود والاتفاقيات؟","options":["في العقود الداخلية فقط","وفق ما تقتضيه حاجة العمل ومصلحة الجامعة","بموافقة الطرف الآخر فقط","لا يجوز مطلقًا"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"متى يجوز للجامعة إخضاع العقود والاتفاقيات لقوانين أجنبية أو لاختصاص محاكم أجنبية أو للتحكيم؟","options":["في جميع العقود","في العقود الداخلية فقط","بقرار من رئيس الجامعة فقط","إذا اقتضت مصلحة الجامعة ذلك"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"في أي ضوء يجوز إخضاع العقود لقوانين أجنبية أو محاكم أجنبية أو للتحكيم؟","options":["في ضوء ما تحدده القواعد والسياسات المعتمدة","وفق رغبة الطرف الآخر","وفق تعليمات وزارة التعليم فقط","وفق نظام العمل"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من يرفع الاستراتيجيات والسياسات والمعايير والضوابط والإجراءات والنظم التي ينص النظام على اعتمادها أو إقرارها من مجلس إدارة الهيئة؟","options":["رئيس الجامعة","المجلس","أمين المجلس","مراجع الحسابات"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"خلال كم يومًا من التاريخ المحدد لبدء سريان الاستراتيجيات والسياسات والمعايير والضوابط والإجراءات والنظم يجب رفعها؟","options":["خمسة عشر يومًا","ستون يومًا","ثلاثون يومًا","تسعون يومًا"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"إلى من يعرض المجلس الاستراتيجيات والسياسات والمعايير والضوابط والإجراءات والنظم؟","options":["وزارة التعليم","رئيس الجامعة","مجلس شؤون الجامعات","مجلس إدارة الهيئة"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"متى يحق لمجلس إدارة الهيئة توجيه المجلس بإجراء تعديل على الاستراتيجيات والسياسات والمعايير والضوابط والإجراءات والنظم؟","options":["خلال مدة الثلاثين يومًا","بعد مرور سنة","قبل إعدادها","بعد بدء السنة المالية"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"يجوز حل الجامعة أو دمجها بغيرها أو تعديل نظامها؟","options":["بقرار من المجلس","بأمر ملكي","بقرار من مجلس إدارة الهيئة","بقرار من رئيس الجامعة"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"هل يجوز دمج الجامعة بغيرها بقرار من المجلس؟","options":["نعم بعد موافقة رئيس الجامعة","نعم بعد موافقة مجلس إدارة الهيئة","لا، لا يكون ذلك إلا بأمر ملكي","نعم إذا اقتضت المصلحة"],"answer":2,"explanation":""},{"chapter":1,"page":"","score":3,"q":"أي من الآتي يتطلب أمرًا ملكيًا وفق المادة الحادية والعشرين؟","options":["اعتماد اللوائح الأكاديمية","تعيين أعضاء هيئة التدريس","إنشاء برنامج أكاديمي","تعديل نظام الجامعة"],"answer":3,"explanation":""},{"chapter":1,"page":"","score":3,"q":"أين يُنشر نظام الجامعة وفق المادة الثانية والعشرين؟","options":["في الجريدة الرسمية","في موقع الجامعة فقط","في صحيفة محلية","في موقع وزارة التعليم"],"answer":0,"explanation":""},{"chapter":1,"page":"","score":3,"q":"بعد كم يومًا من تاريخ نشر النظام يبدأ العمل به؟","options":["تسعون يومًا","مائة وعشرون يومًا","ستون يومًا","مائة وثمانون يومًا"],"answer":1,"explanation":""},{"chapter":1,"page":"","score":3,"q":"من أي تاريخ تُحسب مدة المائة والعشرين يومًا لبدء العمل بالنظام؟","options":["من تاريخ صدوره","من تاريخ اعتماده","من تاريخ نشره","من بداية السنة الجامعية"],"answer":2,"explanation":""},{"chapter":2,"page":22,"score":3,"q":"ماذا تمثل جامعة الملك سعود في مسيرة التعليم العالي بالمملكة العربية السعودية؟","options":["معلمًا تاريخيًا بارزًا","مركزًا للتدريب المهني","مؤسسة بحثية فقط","جامعة متخصصة في الدراسات العليا"],"answer":0,"explanation":"الصفحة 22"},{"chapter":2,"page":"","score":3,"q":"ما مكانة جامعة الملك سعود تاريخيًا بين الجامعات الحكومية في المملكة؟","options":["ثاني جامعة حكومية","أول جامعة حكومية أنشئت في المملكة","أول جامعة أهلية","ثالث جامعة حكومية"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ماذا تعد جامعة الملك سعود في مسيرة التعليم العالي بالمملكة؟","options":["نقطة انطلاق نحو بناء منظومة تعليمية عالية الجودة تواكب التطورات العالمية","بداية التعليم العام","نقطة انطلاق للتعليم المهني فقط","بداية الابتعاث الخارجي"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"على مدى أكثر من كم سنة عكفت جامعة الملك سعود على تحقيق أهدافها؟","options":["ثلاثة عقود","أربعة عقود","خمسة عقود","ستة عقود"],"answer":3,"explanation":""},{"chapter":2,"page":"","score":3,"q":"شهدت الجامعة تطورا متواصلا ونموا مستمرا حيث انتقلت من جامعة ناشئة بكلتين الى صرح اكاديمي شامخ يضم؟","options":["ثماني عشرة كلية","عشرين كلية","ثلاثًا وعشرين كلية","ثلاثين كلية"],"answer":2,"explanation":""},{"chapter":2,"page":23,"score":3,"q":"ما الدافع وراء فكرة إنشاء أول جامعة في المملكة العربية السعودية؟","options":["التوسع في الابتعاث الخارجي","الاستجابة الطبيعية للنهضة التعليمية التي شهدتها المملكة منذ قيامها","زيادة عدد الوزارات","إنشاء مراكز بحثية متخصصة"],"answer":1,"explanation":"الصفحة 23"},{"chapter":2,"page":"","score":3,"q":"في عهد من بدأت فكرة إنشاء أول جامعة في المملكة؟","options":["الملك سعود بن عبد العزيز","الملك فيصل بن عبد العزيز","الملك المؤسس عبد العزيز بن عبد الرحمن آل سعود","الملك خالد بن عبد العزيز"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"من الذي حرص منذ بداية عهده على نشر التعليم في ربوع البلاد؟","options":["الملك سعود بن عبد العزيز","الملك المؤسس عبد العزيز بن عبد الرحمن آل سعود","الملك فيصل بن عبد العزيز","الملك خالد بن عبد العزيز"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"بعد مضي كم سنة على إنشاء وزارة المعارف بدأت خطوات إنشاء الجامعة؟","options":["سنة واحدة","سنتين","ثلاث سنوات","خمس سنوات"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"من الذي أدلى بتصريح يؤكد تفكير وزارة المعارف جديًا في إخراج الجامعة السعودية إلى حيز التنفيذ؟","options":["الملك عبد العزيز بن عبد الرحمن","الملك فهد بن عبد العزيز","الملك سعود بن عبد العزيز","الملك فيصل بن عبد العزيز"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما المنصب الذي كان يتولاه الملك فهد بن عبد العزيز عند تصريحه بشأن إنشاء الجامعة؟","options":["وزير التعليم العالي","وزير المعارف","وزير الداخلية","وزير المالية"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام صدر تصريح الملك فهد بشأن التفكير جديًا في إخراج الجامعة السعودية إلى حيز التنفيذ؟","options":["1374هـ","1375هـ","1376هـ","1377هـ"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ماذا أكد تصريح وزير المعارف عام 1376هـ؟","options":["إنشاء عدد من الجامعات في مناطق المملكة","تفكير وزارة المعارف جديًا في إخراج الجامعة السعودية إلى حيز التنفيذ","إنشاء وزارة التعليم العالي","افتتاح أول كلية أهلية"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"بعد كم من الوقت تقريبًا تحولت فكرة الجامعة إلى حقيقة ملموسة؟","options":["ستة أشهر","نحو عام واحد","عامان","ثلاث سنوات"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"إلى ماذا تحولت فكرة إنشاء الجامعة بعد نحو عام من تصريح عام 1376هـ؟","options":["مشروع قيد الدراسة","خطة مستقبلية","حقيقة ملموسة على أرض الواقع","كلية مستقلة"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"متى صدر المرسوم الملكي الكريم رقم (17) بإنشاء جامعة الملك سعود؟","options":["18 ربيع الآخر 1377هـ","20 ربيع الآخر 1377هـ","21 ربيع الآخر 1377هـ","22 ربيع الآخر 1377هـ"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما التاريخ الميلادي لصدور المرسوم الملكي بإنشاء جامعة الملك سعود؟","options":["10 نوفمبر 1957م","12 نوفمبر 1957م","18 نوفمبر 1957م","21 نوفمبر 1957م"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما رقم المرسوم الملكي الصادر بإنشاء جامعة الملك سعود؟","options":["-17","-21","-27","-32"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في عهد من صدر المرسوم الملكي بإنشاء جامعة الملك سعود؟","options":["الملك عبد العزيز بن عبد الرحمن آل سعود","الملك سعود بن عبد العزيز آل سعود","الملك فيصل بن عبد العزيز آل سعود","الملك خالد بن عبد العزيز آل سعود"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما أحد الأهداف التي نص عليها مرسوم إنشاء جامعة الملك سعود؟","options":["نشر المعارف وترقيتها في المملكة","التوسع في التعليم الابتدائي","زيادة عدد المدارس","التوسع في الابتعاث الخارجي"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما الغاية من تشجيع البحث العلمي وفق مرسوم إنشاء جامعة الملك سعود؟","options":["مسايرة الأمم في الفنون والعلوم ومشاركتها في الكشف والاختراع","زيادة أعداد الطلاب فقط","التركيز على التعليم النظري","الاستغناء عن الجامعات الخارجية"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما الذي أكد مرسوم إنشاء الجامعة ضرورة المحافظة عليه؟","options":["النظم التعليمية القديمة","الحضارة الإسلامية","المناهج التقليدية","طرق التدريس القديمة"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"كيف نص المرسوم على تربية النشء؟","options":["تربية مهنية","تربية علمية فقط","تربية صالحة","تربية بحثية"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما الذي نص المرسوم على توفيره للنشء؟","options":["العقل السليم والخلق القويم","الخبرة العملية فقط","المعرفة النظرية فقط","المهارات المهنية فقط"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما رقم قرار مجلس الوزراء المشار إليه في مرسوم إنشاء جامعة الملك سعود؟","options":["-17","-21","-32","-37"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"متى صدر قرار مجلس الوزراء رقم (32) المشار إليه في المرسوم؟","options":["17 ربيع الآخر 1377هـ","11 ربيع الآخر 1377هـ","20 ربيع الآخر 1377هـ","21 ربيع الآخر 1377هـ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"يتضمن قرار مجلس الوزراء رقم (32) بتاريخ 11 ربيع الآخر 1377هـ؟","options":["انشاء جامعة الملك سعود","انشاء جامعة الملك عبدالعزيز","انشاء جامعة الملك خالد","انشاء جامعة الملك فيصل"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"يتضمن قرار مجلس الوزراء رقم (32) بتاريخ 11 ربيع الآخر 1377هـ؟","options":["يكون وزير المعارف يصادق على قرارات مجلس الجامعة","يكون رئيس الجامعة يصادق على قرارات مجلس الجامعة.","يكون وزير المالية يصادق على قرارات مجلس الجامعة.","يكون رئيس مجلس الجامعة يصادق على قرارات مجلس الجامعة."],"answer":0,"explanation":""},{"chapter":2,"page":24,"score":3,"q":"يتضمن قرار مجلس الوزراء رقم (32) بتاريخ 11 ربيع الآخر 1377هـ؟","options":["- تُنشأ جميع كليات الجامعة دفعة واحدة دون ارتباط بالحاجة.","تنشا الكليات في هذه الجامعة تباعا على قدر الحاجة والاستعداد","لا يجوز إنشاء كليات جديدة بعد تأسيس الجامعة.","يقتصر إنشاء الكليات على مدينة الرياض فقط."],"answer":1,"explanation":"الصفحة 24"},{"chapter":2,"page":"","score":3,"q":"يتضمن قرار مجلس الوزراء رقم (32) بتاريخ 11 ربيع الآخر 1377هـ؟","options":["4 مواد","3 مواد","مادتين","5 مواد"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"تضمنت المادة الرابعة من قرار مجلس الوزراء رقم (32)","options":["يوضع نظام الجامعي الذي يبين الصلات بين الكليات وإدارة الجامعة وبين الكليات بعضها وبعض","يوضع نظام الجامعي الذي يبين الصلات بين الكليات بعضها وبعض","يوضع نظام الجامعي الذي يبين الصلات بين الكليات وإدارة الجامعة","يوضع نظام الجامعي الذي يبين الصلات بين الكليات وإدارة الجامعة"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"قد صدر مع هذا المرسوم الملكي مرسومان ملكيان اخران المرسوم الملكي رقم (18) والمرسوم الملكي رقم (19) كلاهما في نفس التاريخ","options":["18/ربيع اخر/1377","19/ربيع اخر/1377","20/ربيع اخر/1377","25/ربيع اخر/1377"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ماذا قضى المرسومان الملكيان رقم (18) ورقم (19)؟","options":["إنشاء كلية للآداب وكلية للعلوم لتكونا نواة الجامعة الأولى.","إنشاء كلية للطب وكلية للهندسة.","إنشاء كلية للحقوق وكلية للتجارة.","إنشاء كلية للتربية وكلية للزراعة."],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"متى بدأت الدراسة الفعلية في جامعة الملك سعود؟","options":["العام الجامعي 1376/1377هـ","العام الجامعي 1377/1378هـ","العام الجامعي 1378/1379هـ","العام الجامعي 1379/1380هـ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"بأي كلية بدأت الدراسة الفعلية في جامعة الملك سعود؟","options":["كلية العلوم","كلية الطب","كلية الآداب","كلية الهندسة"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ماذا استقبلت كلية الآداب عند افتتاحها؟","options":["أول دفعة من أعضاء هيئة التدريس","أول دفعة من الطلاب الذين التحقوا ببرامجها الأكاديمية","أول دفعة من الباحثين","أول دفعة من طلاب الدراسات العليا"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"من أول مدير ومؤسس لجامعة الملك سعود؟","options":["الدكتور عبد الوهاب بن محمد عزام","الدكتور طه حسين","الدكتور محمد عبده يماني","الدكتور ناصر المنقور"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"من اختار الدكتور عبد الوهاب بن محمد عزام ليكون أول مدير ومؤسس لجامعة الملك سعود؟","options":["الملك عبد العزيز بن عبد الرحمن","الملك سعود بن عبد العزيز","الملك فيصل بن عبد العزيز","وزير المعارف"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام تولى الدكتور عبد الوهاب بن محمد عزام مهمة أول مدير ومؤسس لجامعة الملك سعود؟","options":["1376هـ - 1956م","1377هـ -1957 م","1378هـ - 1958م","1379هـ - 1959م"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"متى استلم الدكتور عبدالوهاب بن محمد عزام وكم استمر حتى أي عام؟","options":["استلم عام 1377 هـ - وتوفى عام 1378 م","استلم عام 1377 هـ - وتوفى عام 1379 م","استلم عام 1377 هـ - وتوفى عام 1376 م","استلم عام 1378 هـ - وتوفى عام 1375 م"],"answer":0,"explanation":""},{"chapter":2,"page":25,"score":3,"q":"من اول رئيس جامعة سعودي؟","options":["الدكتور عبد العزيز الخويطر","الأستاذ ناصر بن حمد المنقور","الدكتور عبد الله الفيصل","الدكتور منصور التركي"],"answer":1,"explanation":"الصفحة 25"},{"chapter":2,"page":"","score":3,"q":"ما هو المرسوم الملكي المتضمن الموافقة على نظام جامعة الملك سعود؟","options":["المرسوم الملكي رقم (112)","المرسوم الملكي رقم (23)","المرسوم الملكي رقم (17)","المرسوم الملكي رقم (32)"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما ابرز ما تضمن نظام جامعة الملك سعود في المرسوم الملكي رقم 112 بتاريخ 26/ذي الحجة/1380هـ","options":["ان للجامعة شخصية اعتبارية وميزانية خاصة","استقلالًا ماليًا","استقلالًا أكاديميًا","صلاحية إنشاء الجامعات"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"من كان يوافق على ميزانية الجامعة الخاصة وفق نظام عام 1380هـ؟","options":["وزير المعارف ويعرضها على الجهات ذات الاختصاص لاعتمادها","رئيس الجامعة","مجلس الوزراء","مجلس الجامعة"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما هو المرسوم الملكي المتضمن الموافقة على نظام جامعة الرياض (جامعة الملك سعود حاليا)؟","options":["المرسوم الملكي رقم (112)","المرسوم الملكي رقم (23)","المرسوم الملكي رقم (17)","المرسوم الملكي رقم (32)"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما  أبرز ما جاء في نظام جامعة الرياض لعام 1387هـ؟","options":["إحداث المجلس الأعلى للجامعة كإحدى السلطات الإدارية فيها والمجلس الأعلى هو السلطة المهيمنة على شؤون الجامعة وله وضع السياسة التي تسير عليها","انشاء احداث الإدارات الكلية","إلغاء ميزانية الجامعة","إنشاء وزارة التعليم"],"answer":0,"explanation":""},{"chapter":2,"page":26,"score":3,"q":"المرسوم الملكي رقم (م/6) ماذا الغى؟","options":["الغاء نظام الجامعة الصادر في 1387 هـ وجميع ما يتعارض معه من أنظمة واوامر وتعليمات سابقة.","الغاء نظام الجامعة الصادر في 1389 هـ وجميع ما يتعارض معه من أنظمة واوامر وتعليمات سابقة.","الغاء نظام الجامعة الصادر في 1390 هـ وجميع ما يتعارض معه من أنظمة واوامر وتعليمات سابقة.","الغاء نظام الجامعة الصادر في 1391 هـ وجميع ما يتعارض معه من أنظمة واوامر وتعليمات سابقة."],"answer":0,"explanation":"الصفحة 26"},{"chapter":2,"page":"","score":3,"q":"متى صدرت الموافقة السامية على نظام مجلس التعليم العالي والجامعات؟","options":["1392هـ","1404هـ","1414هـ","1424هـ"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"تضمن نظام مجلس التعليم العالي والجامعات؟","options":["إنشاء مجلس لكل جامعة يتولى تصريف الشؤون العلمية والإدارية والمالية وتنفيذ السياسة العامة للجامعة","إنشاء مجلس لكل جامعة يتولى تصريف الشؤون الإدارية والمالية وتنفيذ السياسة العامة للجامعة","إنشاء مجلس لكل جامعة يتولى تصريف الشؤون المالية وتنفيذ السياسة العامة للجامعة","إنشاء مجلس لكل جامعة يتولى تصريف الشؤون المالية"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"من غير اسم جامعة الملك سعود الى جامعة الرياض؟","options":["الملك فيصل بن عبد العزيز","الملك خالد بن عبد العزيز","الملك فهد بن عبد العزيز","الملك سعود بن عبدالعزيز"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام تم ارجاع إعادة اسم الجامعة الى جامعة الملك سعود؟","options":["1392هـ","1422هـ","1412هـ","1402هـ"],"answer":3,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام احتفلت جامعة الرياض بمرور خمسة وعشرين عامًا على إنشائها؟","options":["1392هـ","1402هـ","1412هـ","1422هـ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"من أصدر التوجيه بإعادة اسم الجامعة إلى جامعة الملك سعود؟","options":["الملك سعود بن عبد العزيز","الملك خالد بن عبد العزيز","الملك فهد بن عبد العزيز","الملك فيصل بن عبد العزيز"],"answer":1,"explanation":""},{"chapter":2,"page":27,"score":3,"q":"كم عدد مراحل التوسع الاكاديمي؟","options":["11 مرحلة","12 مرحلة","13 مرحلة","14 مرحلة"],"answer":2,"explanation":"الصفحة 27"},{"chapter":2,"page":"","score":3,"q":"في المرحلة الأولى في التاسيس من عام 1377 - 1380 تأسست؟","options":["كلية الاداب - كلية العلوم","كلية الاداب - كلية العلوم - كلية الزراعة","كلية الاداب - كلية العلوم - كلية الزراعة - كلية الهندسة","كلية الاداب - كلية العلوم - كلية الزراعة - كلية الهندسة - كلية الطب"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما الكلية التي بدأت بها الجامعة عام 1377هـ؟","options":["كلية العلوم","كلية التجارة","كلية الآداب","كلية الصيدلة"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"بموجب أي مرسوم ملكي أُنشئت كلية الآداب؟","options":["المرسوم الملكي رقم (18)","المرسوم الملكي رقم (17)","المرسوم الملكي رقم (23)","المرسوم الملكي رقم (112)"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"متى أُنشئت كلية الآداب؟","options":["4 ربيع الآخر 1377هـ","21 ربيع الآخر 1377هـ","4 ربيع الأول 1377هـ","18 ربيع الآخر 1377هـ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما مكانة كلية الآداب في تاريخ الجامعة؟","options":["أول كلية تبدأ فيها الدراسة الفعلية","ثاني كلية في الجامعة","أول كلية علمية","أول كلية للدراسات العليا"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام تخرجت الدفعة الأولى من كلية الآداب؟","options":["1377هـ","1380هـ","1381هـ","1382هـ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"كم بلغ عدد خريجي الدفعة الأولى من كلية الآداب؟","options":["10 خريجين","15 خريجًا","20 خريجًا","25 خريجًا"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"متى تأسست كلية العلوم؟","options":["1377هـ","1378هـ","1379هـ","1380هـ"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"بموجب أي مرسوم ملكي تأسست كلية العلوم؟","options":["المرسوم الملكي رقم (19)","المرسوم الملكي رقم (18)","المرسوم الملكي رقم (17)","المرسوم الملكي رقم (23)"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي تاريخ صدر المرسوم الملكي رقم (19) بتأسيس كلية العلوم؟","options":["21 ربيع الآخر 1377هـ","4 ربيع الآخر 1377هـ","21 ربيع الأول 1377هـ","18 ربيع الآخر 1377هـ"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"متى بدأت الدراسة في كلية العلوم؟","options":["1377هـ","1379هـ","1380هـ","1381هـ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما اسم المرحلة الثانية من مراحل التوسع الأكاديمي؟","options":["مرحلة التوسع الأولي بالكليات","مرحلة التأسيس","مرحلة التوسع الشامل","مرحلة التطوير"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام بدأت المرحلة الثانية «التوسع الأولي بالكليات»؟","options":["1377هـ","1378هـ","1379هـ","1380هـ"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما الكلية التي أُنشئت في بداية مرحلة التوسع الأولي بالكليات؟","options":["كلية العلوم","كلية التجارة","كلية الآداب","كلية الطب"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما اسم المرحلة الثالثة من مراحل التوسع الأكاديمي؟","options":["مرحلة التأسيس","مرحلة التوسع الأولي بالكليات","مرحلة قبول الطالبات","مرحلة التوسع في الدراسات العليا"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما القسم الاول بكلية الاداب الذي استقبل الطالبات ؟","options":["اللغة العربية","اللغة الإنجليزية","الدراسات الاجتماعية","الاعلام"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"كم عدد الطالبات المتقدمات؟","options":["3 طالبات سعوديات","5 طالبات سعوديات","4 طالبات سعوديات","6 طالبات سعوديات"],"answer":2,"explanation":""},{"chapter":2,"page":28,"score":3,"q":"ما اسم المرحلة الرابعة من مراحل التوسع الأكاديمي؟","options":["مرحلة قبول الطالبات","مرحلة إضافة التخصصات الأساسية","مرحلة التأسيس","مرحلة التوسع الأولي بالكليات"],"answer":1,"explanation":"الصفحة 28"},{"chapter":2,"page":"","score":3,"q":"ما الفترة الزمنية للمرحلة الرابعة «إضافة التخصصات الأساسية»؟","options":["1381-1385هـ","1385-1387هـ","1387-1390هـ","1379-1381هـ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام أُنشئت كلية الزراعة؟","options":["1381هـ","1383هـ","1385هـ","1387هـ"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما مكانة كلية الزراعة بعد إنشائها ؟","options":["أصبحت فيما بعد كلية علوم الأغذية والزراعة","أصبحت كلية العلوم","أصبحت كلية الهندسة","أصبحت كلية الطب"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عامين انضمت كليتا الهندسة والتربية إلى الجامعة؟","options":["1385/1386هـ","1387/1388هـ","1389/1390هـ","1391/1392هـ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"قبل ضم كلية الهندسة والتربية كانت تحت إشراف ماذا؟","options":["منظمة الصحة العالمية","منظمة اليونسكو","منظمة العمل الدولية","منظمة الأغذية والزراعة"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما المسؤولية التي تولتها كلية التربية؟","options":["إعداد المعلمين والمعلمات المؤهلين لمختلف مراحل التعليم","إعداد الأطباء","إعداد المهندسين","إعداد الصيادلة"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما اسم المرحلة الخامسة من مراحل التوسع الأكاديمي؟","options":["مرحلة الكليات الطبية والمعاهد","مرحلة إضافة التخصصات الأساسية","مرحلة قبول الطالبات","مرحلة التوسع الأولي بالكليات"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما الفترة الزمنية للمرحلة الخامسة «الكليات الطبية والمعاهد»؟","options":["1385-1387هـ","1387-1394هـ","1394-1400هـ","1381-1387هـ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام أُنشئت كلية الطب؟","options":["1385هـ","1386هـ","1387هـ","1389هـ"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"متى بدأت الدراسة الفعلية في كلية الطب؟","options":["1387هـ","1388هـ","1389هـ","1394هـ"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام بدأ قبول الطالبات في كلية الطب؟","options":["1389هـ","1390هـ","1392هـ","1394هـ"],"answer":3,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام أُنشئ معهد اللغة العربية؟","options":["1392هـ","1394هـ","1396هـ","1404هـ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما الهدف من إنشاء معهد اللغة العربية؟","options":["نشر اللغة العربية وتعليمها للناطقين بغيرها من مختلف أنحاء العالم","تدريس اللغات الأجنبية","إعداد معلمي التعليم العام فقط","تدريس الدراسات الإسلامية فقط"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام تغير اسم معهد اللغة العربية إلى معهد اللغويات العربية؟","options":["1394هـ","1404هـ","1414هـ","1424هـ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"إلى ماذا تغير اسم معهد اللغة العربية في عام 1404هـ؟","options":["معهد تعليم اللغة العربية","معهد الدراسات اللغوية","معهد اللغويات العربية","كلية اللغات والترجمة"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"إلى ماذا ضُم معهد اللغويات العربية مؤخرًا؟","options":["كلية الآداب","كلية التربية","كلية العلوم الإنسانية والاجتماعية","كلية اللغات وعلومها"],"answer":3,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام أُنشئت عمادات مساندة مهمة في الجامعة؟","options":["1394هـ","1404هـ","1414هـ","1424هـ"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"أي من الآتي من العمادات المساندة التي أُنشئت عام 1394هـ؟","options":["عمادة شؤون المكتبات","عمادة الدراسات العليا","عمادة البحث العلمي","عمادة التطوير والجودة"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما العمادة التي أُنشئت عام 1394هـ إلى جانب عمادة شؤون المكتبات؟","options":["عمادة شؤون الطلاب","عمادة القبول والتسجيل","عمادة الدراسات العليا","عمادة البحث العلمي"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما العمادات المساندة المهمة التي أُنشئت عام 1394هـ ؟","options":["عمادة شؤون المكتبات وعمادة القبول والتسجيل وعمادة شؤون الطلاب","عمادة الدراسات العليا وعمادة البحث العلمي","عمادة الجودة وعمادة التطوير","عمادة التعليم الإلكتروني وعمادة السنة الأولى المشتركة"],"answer":0,"explanation":""},{"chapter":2,"page":29,"score":3,"q":"ما اسم المرحلة السادسة من مراحل التوسع الأكاديمي؟","options":["مرحلة الكليات الطبية والمعاهد","مرحلة التوسع في التخصصات الصحية والإنسانية","مرحلة إضافة التخصصات الأساسية","مرحلة التوسع الأولي بالكليات"],"answer":1,"explanation":"الصفحة 29"},{"chapter":2,"page":"","score":3,"q":"ما الفترة الزمنية للمرحلة السادسة «التوسع في التخصصات الصحية والإنسانية»؟","options":["1387-1394هـ","1395-1399هـ","1400-1405هـ","1394-1400هـ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام أُنشئت كلية طب الأسنان؟","options":["1394هـ","1395هـ","1396هـ","1399هـ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"متى استقبلت كلية طب الأسنان أول دفعة من طلابها؟","options":["في العام الدراسي 1395هـ","في العام الدراسي 1396هـ","في العام الدراسي 1397هـ","في العام الدراسي 1399هـ"],"answer":3,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام تأسست كلية العلوم الطبية التطبيقية؟","options":["1395هـ","1397هـ","1399هـ","1400هـ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"تعد كلية العلوم الطبية التطبيقية في المملكة؟","options":["أول كلية في هذا المجال","ثاني كلية في هذا المجال","ثالث كلية في هذا المجال","رابع كلية في هذا المجال"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"يوجد في كلية العلوم الطبية التطبيقية 7 اقسام يندرج تحتها كم برنامج؟","options":["أكثر من 10 برامج","أكثر من 15 برنامجًا","أكثر من 12 برنامجًا","أكثر من 30 برنامجًا"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"إلى أي عام يعود إنشاء كلية اللغات وعلومها؟","options":["1395هـ","1397هـ","1399هـ","1401هـ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما الإجراء الذي مثّل بداية إنشاء كلية اللغات وعلومها عام 1397هـ؟","options":["تحويل مركز اللغة الإنجليزية التابع لقسم اللغة الإنجليزية بكلية الآداب آنذاك إلى مركز اللغات والترجمة","إنشاء قسم اللغة العربية","إنشاء عمادة اللغات","دمج كلية الآداب مع كلية التربية"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام تم تغيير مسمى مركز اللغات والترجمة الى معهد اللغات والترجمة ؟","options":["1411","1412","1414","1410"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"متى تم استبدال معهد اللغات والترجمة الى كلية اللغات والترجمة؟","options":["1414","1415","1416","1417"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام اعيد هيكلة كلا من كليات اللغات والترجمة وقسم اللغة الإنجليزية وادابها بكلية الاداب ومعهد اللغويات العربية في الجامعة ليكون اسمها كلية اللغات وعلومها؟","options":["1397","1398","1399","1396"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"متى عُدل اسم كلية الدراسات العليا إلى عمادة الدراسات العليا؟","options":["17/6/1418هـ","17/6/1417هـ","2/2/1417هـ","17/6/1444هـ"],"answer":0,"explanation":""},{"chapter":2,"page":30,"score":3,"q":"ما اسم المرحلة السابعة من مراحل التوسع الأكاديمي؟","options":["مرحلة التوسع في التخصصات الصحية","مرحلة الفروع الخارجية","مرحلة الكليات الطبية والمعاهد","مرحلة التوسع الشامل"],"answer":1,"explanation":"الصفحة 30"},{"chapter":2,"page":"","score":3,"q":"في أي عام أُنشئ فرع كلية الطب في أبها؟","options":["1397هـ","1400هـ","1419هـ","1420هـ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"بماذا اعتُبرت كلية الطب في أبها عند إنشائها؟","options":["فرعًا لجامعة الملك سعود","كلية مستقلة","فرعًا لجامعة الملك خالد","فرعًا لجامعة الإمام"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"متى صدر الأمر السامي القاضي بإنشاء جامعة الملك خالد؟","options":["عام 1400هـ","عام 1417هـ","عام 1419هـ","عام 1420هـ"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام أصبحت جامعة الملك خاد مستقلة والتي كانت في الأساس فرع لجامعة الملك سعود وجامعة الامام محمد بن سعود الاسلامية؟","options":["1417","1418","1419","1420"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام أُنشئ فرع للجامعة في منطقة القصيم؟","options":["1400هـ","1401هـ","1419هـ","1424هـ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما الكليات التي افتُتحت في فرع القصيم عند إنشائه؟","options":["كلية الزراعة والطب البيطري وكلية الاقتصاد والإدارة","كلية الطب وكلية العلوم","كلية الهندسة وكلية التربية","كلية الآداب وكلية الصيدلة"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"متى أنشئت كلية العلوم في فرع القصيم؟","options":["1401هـ","1410هـ","1418هـ","1424هـ"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"متى أنشئت كلية الهندسة في فرع القصيم؟","options":["1424هـ","1410هـ","1419هـ","1421هـ"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"متى أنشئت كلية الطب في فرع القصيم؟","options":["1424هـ","1410هـ","1419هـ","1421هـ"],"answer":3,"explanation":""},{"chapter":2,"page":"","score":3,"q":"متى استقل فرع القصيم ليصبح جامعة مستقلة تحت اسم جامعة القصيم؟","options":["1418هـ","1420هـ","1424هـ","1430هـ"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ماذا أصبح فرع القصيم بعد استقلاله عام 1424هـ؟","options":["جامعة الملك خالد","جامعة القصيم","جامعة مستقلة باسم جامعة الرياض","جامعة الإمام"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما رقم المرسوم الملكي الذي صدر عام 1418هـ بإنشاء كلية المجتمع بجازان؟","options":["رقم 13","رقم 23","رقم 33","رقم 43"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام صدر المرسوم الملكي رقم 33 بإنشاء كلية المجتمع بجازان التابعة لجامعة الملك سعود؟","options":["1418هـ","1420هـ","1424هـ","1430هـ"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"متى أنشئت كلية العلوم في الجوف؟","options":["1422هـ","1423هـ","1424هـ","1425هـ"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ماذا حدث لكليات المجتمع في المجمعة والأفلاج والقريات لاحقًا؟","options":["أُغلقت","دُمجت في جامعة الملك سعود","استقلت هذه الفروع لاحقًا لتصبح جامعات مستقلة في مناطقها","تحولت إلى معاهد"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما اسم المرحلة الثامنة من مراحل التوسع الاكاديمي؟","options":["مرحلة الفروع الخارجية","مرحلة عهد الاحتفال بالربع قرن","مرحلة التوسع الصحي","مرحلة الاستقلال"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام كان الاحتفال بالربع قرن للجامعة؟","options":["1424هـ","1402هـ","1428هـ","1430هـ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"الى ماذا تحولت عمادة خدمة المجتمع والتعليم المستمر؟","options":["كلية الدراسات التطبيقية وخدمة المجتمع","كلية العلوم الطبية التطبيقية","كلية الفنون","كلية العمارة والتخطيط"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما المنشأة التي افتُتحت خلال مرحلة الربع قرن داخل الحرم الجامعي رسميًا؟","options":["مستشفى الملك خالد الجامعي","مستشفى الملك عبد العزيز الجامعي","مستشفى الملك سعود الجامعي","مدينة الملك سعود الطبية"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما الذي يضمه مستشفى الملك خالد الجامعي؟","options":["عيادات تخصصية فقط","خدمات صحية عامة فقط","عيادات متخصصة وخدمات صحية متكاملة","مراكز تدريبية فقط"],"answer":2,"explanation":""},{"chapter":2,"page":31,"score":3,"q":"ما اسم المرحلة التاسعة من مراحل التوسع الأكاديمي؟","options":["مرحلة التوسع الصحي","مرحلة الفروع الخارجية","مرحلة التقنية والعمارة","مرحلة التخصصات الأساسية"],"answer":2,"explanation":"الصفحة 31"},{"chapter":2,"page":"","score":3,"q":"في أي عام بدأت المرحلة التاسعة «التقنية والعمارة»؟","options":["1400هـ","1402هـ","1404هـ","1406هـ"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما الكلية التي أُنشئت ضمن مرحلة التقنية والعمارة؟","options":["كلية الهندسة","كلية العمارة والتخطيط","كلية علوم الحاسب","كلية إدارة الأعمال"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام أُنشئت كلية العمارة والتخطيط؟","options":["1402هـ","1404هـ","1406هـ","1408هـ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"لماذا أُنشئت كلية العمارة والتخطيط؟","options":["لتلبية احتياجات المملكة في مجال التخطيط العمراني والتصميم المعماري","لتلبية احتياجات القطاع الصحي","للتوسع في العلوم الإدارية","لإعداد المعلمين"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام أُنشئت كلية علوم الحاسب والمعلومات؟","options":["1402هـ","1404هـ","1406هـ","1408هـ"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما اسم المرحلة العاشرة من مراحل التوسع الأكاديمي؟","options":["مرحلة التقنية والعمارة","مرحلة اللغات والترجمة","مرحلة الفروع الخارجية","مرحلة التخصصات الصحية"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما اسم المرحلة الحادية عشرة من مراحل التوسع الأكاديمي؟","options":["مرحلة اللغات والترجمة","مرحلة البحث العلمي والاستشارات","مرحلة التقنية والعمارة","مرحلة الفروع الخارجية"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام بدأت المرحلة الحادية عشرة «البحث العلمي والاستشارات»؟","options":["1414هـ","1415هـ","1417هـ","1419هـ"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام أُنشئ معهد البحوث والدراسات الاستشارية؟","options":["1415هـ","1417هـ","1419هـ","1420هـ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما هو القرار مجلس التعليم العالي للدراسات العليا؟","options":["1281/أ","1282/أ","1283/أ","1284/أ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"إلى ماذا تحول معهد البحوث والدراسات الاستشارية لاحقًا؟","options":["عمادة البحث العلمي","معهد الملك عبدالله للبحوث","معهد الملك عبدالله للبحوث والدراسات الاستشارية","مركز الدراسات الاستشارية"],"answer":2,"explanation":""},{"chapter":2,"page":32,"score":3,"q":"ما اسم المرحلة الثانية عشرة من مراحل التوسع الأكاديمي؟","options":["مرحلة البحث العلمي والاستشارات","مرحلة التطوير المستمر","مرحلة التقنية والعمارة","مرحلة الفروع الخارجية"],"answer":1,"explanation":"الصفحة 32"},{"chapter":2,"page":"","score":3,"q":"ما الفترة الزمنية للمرحلة الثانية عشرة «التطوير المستمر»؟","options":["1419-1424هـ","1424-1434هـ","1417-1424هـ","1434-1444هـ"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"متى أنشئت عمادة البحث العلمي؟","options":["1418هـ","1419هـ","1420هـ","1421هـ"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام أُنشئ مركز خدمة المجتمع والتعليم المستمر؟","options":["1419هـ","1421هـ","1424هـ","1434هـ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما الكلية التي أُنشئت في الرياض بقرار مجلس الوزراء رقم (73)؟","options":["كلية الدراسات العليا","كلية المجتمع","كلية العلوم الطبية التطبيقية","كلية التمريض"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما رقم قرار مجلس الوزراء بإنشاء كلية المجتمع في الرياض؟","options":["-33","-73","-112","-23"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام أُنشئت كلية التمريض؟","options":["1422هـ","1424هـ","1430هـ","1434هـ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"متى صدر قرار إنشاء كلية التمريض ككلية مستقلة؟","options":["1424/11/26هـ","11/6/1434هـ","17/6/1418هـ","11/6/1430هـ"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"عن أي كلية استقلت كلية التمريض؟","options":["كلية الطب","كلية العلوم الطبية التطبيقية","كلية الصيدلة","كلية طب الأسنان"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما اسم المرحلة الثالثة عشرة من مراحل التوسع الأكاديمي؟","options":["مرحلة التطوير المستمر","مرحلة الكليات الحديثة","مرحلة البحث العلمي والاستشارات","مرحلة الفروع الخارجية"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"إلى كم وصل عدد كليات جامعة الملك سعود؟","options":["عشرين كلية","إحدى وعشرين كلية","ثلاث وعشرين كلية","خمس وعشرين كلية"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"أي مجموعة تمثل الكليات الحديثة ؟","options":["السياحة والآثار، الفنون، علوم الرياضة والنشاط البدني، الحقوق والعلوم السياسية، الدراسات التطبيقية","الطب، العلوم، الآداب، الهندسة، الصيدلة","التمريض، طب الأسنان، الزراعة، التربية، العلوم","إدارة الأعمال، العمارة، الحاسب، الطب، الصيدلة"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام افتُتحت المدينة الجامعية بالدرعية؟","options":["1400هـ","1405هـ","1410هـ","1420هـ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"من افتتح المدينة الجامعية بالدرعية؟","options":["الملك خالد بن عبد العزيز","الملك فهد بن عبد العزيز","الملك عبد الله بن عبد العزيز","الملك سلمان بن عبد العزيز"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"إلى كم تصل المساحة الإجمالية للمدينة الجامعية بالدرعية تقريبًا؟","options":["6 ملايين متر مربع","7 ملايين متر مربع","9 ملايين متر مربع","12 مليون متر مربع"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام افتُتحت المدينة الجامعية للطالبات؟","options":["1430هـ","1432هـ","1434هـ","1436هـ"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"متى استقبلت المدينة الجامعية للطالبات الطالبات لأول مرة؟","options":["بداية العام الدراسي 1432/1433هـ","بداية العام الدراسي 1433/1434هـ","بداية العام الدراسي 1434/1435هـ","بداية العام الدراسي 1435/1436هـ"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما أول مستشفى تعليمي في المملكة العربية السعودية؟","options":["مستشفى الملك عبد العزيز الجامعي","مستشفى الملك خالد الجامعي","مستشفى الملك فهد الجامعي","مستشفى الملك سلمان الجامعي"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما الدور الذي أسهم فيه مستشفى الملك عبد العزيز الجامعي؟","options":["تقديم الرعاية الصحية وتدريب الكوادر الطبية","تدريس العلوم الإدارية","إدارة القبول والتسجيل","تقديم الخدمات الرياضية"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما المستشفى الآخر الذي أضيف إلى المدينة الطبية الجامعية؟","options":["مستشفى الملك خالد الجامعي","مستشفى الملك فيصل الجامعي","مستشفى الملك سعود الجامعي","مستشفى الملك فهد الجامعي"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"في أي عام افتُتح مستشفى الملك خالد الجامعي؟","options":["1400هـ","1402هـ","1404هـ","1406هـ"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما البرنامج الذي أسسته جامعة الملك سعود لدعم أوقاف الجامعة؟","options":["برنامج اوقاف الجامعة","برنامج الاستثمار","برنامج الشراكات","برنامج التمويل"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"كم تبلغ تقريبًا المساحة المخصصة لبرنامج أوقاف الجامعة؟","options":["50 ألف متر مربع","180 ألف متر مربع","100 ألف متر مربع","120 ألف متر مربع"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"كم عدد الأبراج التي يضمها مشروع أوقاف الجامعة؟","options":["ثلاثة أبراج","أربعة أبراج","ثمانية أبراج","ستة أبراج"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"أي من الآتي ورد ضمن أبراج أوقاف الجامعة؟","options":["برج الفندق من فئة الخمس نجوم، برج مصرف الراجحي الطبي، برج الشيخ صالح كامل، برج الاجنحة الفندقية، برج المعلم محمد بن لادن المكتبي، برج الأمير سلطان بن عبدالعزيز للأبحاث، برج الدكتور ناصر الرشيد، برج الشيخ عبدالرحمن بن عبدالله الهليل","برج الفندق من فئة الخمس نجوم، برج المعلم محمد بن لادن المكتبي، برج الأمير سلطان بن عبدالعزيز للأبحاث، برج الدكتور ناصر الرشيد، برج الشيخ عبدالرحمن بن عبدالله الهليل","برج الفندق من فئة الخمس نجوم، برج مصرف الراجحي الطبي، برج الشيخ صالح كامل","برج الأمير سلطان بن عبدالعزيز للأبحاث، برج الدكتور ناصر الرشيد"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"أي برج ورد ضمن أبراج أوقاف الجامعة؟","options":["برج الشيخ صالح كامل","برج الشيخ سليمان الراجحي","برج الأمير سلطان","برج الملك فيصل"],"answer":0,"explanation":""},{"chapter":2,"page":34,"score":3,"q":"على مدى كم من الزمن رسمت جامعة الملك سعود مسارًا متميزًا في تاريخ التعليم العالي بالمملكة؟","options":["أكثر من أربعة عقود","أكثر من خمسة عقود","أكثر من ستة عقود","أكثر من سبعة عقود"],"answer":2,"explanation":"الصفحة 34"},{"chapter":2,"page":"","score":3,"q":"بكم كلية بدأت جامعة الملك سعود مسيرتها؟","options":["بكلية واحدة","بكليتين فقط","بثلاث كليات","بأربع كليات"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"نمت الجامعة لتصبح صرحا اكاديميا شامخا يضم؟","options":["ثلاث وعشرين كلية وآلاف الطلاب والطالبات","جامعة متخصصة في الدراسات العليا فقط","جامعة تضم عشر كليات","مؤسسة بحثية فقط"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"من أين يأتي أعضاء هيئة التدريس المتميزون في الجامعة؟","options":["من المملكة فقط","من دول عربية فقط","من مختلف الجنسيات والتخصصات","من الجامعات المحلية فقط"],"answer":2,"explanation":""},{"chapter":2,"page":"","score":3,"q":"انشاء الفروع في مختلف مناطق المملكة التي تحولت لاحقا ؟","options":["كليات أهلية","جامعات مستقلة","معاهد بحثية","مراكز تدريبية"],"answer":1,"explanation":""},{"chapter":2,"page":"","score":3,"q":"تقف الجامعة اليوم على اعتاب مرحلة جديدة من؟","options":["التميز والريادة","تقليل عدد التخصصات","التركيز على التعليم فقط","إيقاف التوسع الأكاديمي"],"answer":0,"explanation":""},{"chapter":2,"page":"","score":3,"q":"ما الرؤية التي تتوافق معها تطلعات جامعة الملك سعود المستقبلية؟","options":["رؤية المملكة 2020","رؤية المملكة 2025","رؤية المملكة 2030","رؤية المملكة 2040"],"answer":2,"explanation":""}];
+    const pageByChapter = {};
+    questions.forEach(q => {
+      if (q.page !== '' && q.page !== null && q.page !== undefined) {
+        pageByChapter[q.chapter] = q.page;
+      } else if (pageByChapter[q.chapter] !== undefined) {
+        q.page = pageByChapter[q.chapter];
+      }
+    });
+
+    const chapterTitles = { "1": "نظام الجامعة الأساس", "2": "تاريخ جامعة الملك سعود" };
+    const chapterCounts = (() => { const counts={0:questions.length}; for(let i=1;i<=2;i++) counts[i]=questions.filter(q=>q.chapter===i).length; return counts; })();
+    const colors = { 1: '#1268d8', 2: '#0d8f73' };
+    const ord = ['', 'الأول', 'الثاني'];
+    let activeChapter = 1, pool = [], current = 0, answers = {}, marked = new Set(), startedAt = 0, timerId = null, timeLeft = 0;
+
+    function statsKey(c) { return 'ksu-card-stats-' + c }
+    function getStats(c) { try { return JSON.parse(localStorage.getItem(statsKey(c)) || '{"answered":0,"best":0}') } catch (e) { return { answered: 0, best: 0 } } }
+
+    function buildCards() {
+      const grid = document.getElementById('chapterGrid'); grid.innerHTML = '';
+      for (let c=1;c<=2;c++) {
+        const st=getStats(c), total=chapterCounts[c]||0, progress=total?Math.min(100,Math.round((st.answered/total)*100)):0;
+        const card=document.createElement('article'); card.className='chapter-card'+(c===activeChapter?' selected':''); card.style.setProperty('--accent',colors[c]);
+        card.innerHTML=`<div class="card-top"><div><div class="card-kicker">الباب ${ord[c]}</div><div class="card-title">${chapterTitles[c]}</div></div><div class="count-pill">${total} سؤالًا</div></div><div class="progress"><span style="--progress:${progress}%"></span></div><div class="card-stats"><span>الإنجاز: ${progress}%</span><span>أفضل نتيجة: ${st.best}%</span></div><button class="start-card-btn">ابدأ</button>`;
+        if(total>0) card.onclick=()=>{activeChapter=c; buildCards(); startExam();}; else {card.style.opacity='.65';card.style.cursor='not-allowed';card.querySelector('.start-card-btn').disabled=true;}
+        grid.appendChild(card);
+      }
+    }
+
+    function formatTime(seconds) {
+      const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+      const s = (seconds % 60).toString().padStart(2, '0');
+      return `${m}:${s}`;
+    }
+
+    function updateTimer() {
+      const el = document.getElementById('timer');
+      el.textContent = formatTime(timeLeft);
+      if (timeLeft <= 300) el.classList.add('danger'); else el.classList.remove('danger');
+    }
+
+    function startTimer() {
+      if (timerId) clearInterval(timerId);
+      timeLeft = pool.length * 60;
+      updateTimer();
+      timerId = setInterval(() => {
+        timeLeft--;
+        updateTimer();
+        if (timeLeft <= 0) {
+          clearInterval(timerId);
+          timerId = null;
+          alert(`انتهى وقت الاختبار (${pool.length} دقيقة). سيتم عرض النتيجة الآن.`);
+          finishExam(true);
+        }
+      }, 1000);
+    }
+
+    function startExam() {
+      const available = questions.filter(q => q.chapter === 1).length;
+
+      if (available === 0) {
+        alert('لا توجد أسئلة مضافة في هذا الباب حتى الآن.');
+        return;
+      }
+
+      const name = document.getElementById('candidateName').value.trim();
+      if (!name) { alert('اكتب الاسم أولًا.'); document.getElementById('candidateName').focus(); return }
+      localStorage.setItem('ksu101-candidate-name', name);
+
+      const val = document.getElementById('questionCount').value;
+      const requested = val === 'all'
+        ? (activeChapter === 0 ? questions.length : questions.filter(q => q.chapter === activeChapter).length)
+        : Number(val);
+
+      if (activeChapter === 0) {
+        const groups = {};
+        for (let c = 1; c <= 8; c++) groups[c] = questions.filter(q => q.chapter === c);
+
+        if (document.getElementById('questionOrder').value === 'random') {
+          for (let c = 1; c <= 8; c++) {
+            const arr = [...groups[c]];
+            for (let i = arr.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            groups[c] = arr;
+          }
+        }
+
+        pool = [];
+        let remaining = Math.min(requested, questions.length);
+        let round = 0;
+        while (remaining > 0) {
+          let added = 0;
+          for (let c = 1; c <= 8 && remaining > 0; c++) {
+            if (groups[c][round]) {
+              pool.push(groups[c][round]);
+              remaining--;
+              added++;
+            }
+          }
+          if (added === 0) break;
+          round++;
+        }
+
+        if (document.getElementById('questionOrder').value === 'random') {
+          for (let i = pool.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [pool[i], pool[j]] = [pool[j], pool[i]];
+          }
+        }
+      } else {
+        pool = questions.filter(q => q.chapter === activeChapter);
+        if (document.getElementById('questionOrder').value === 'random') {
+          pool = [...pool];
+          for (let i = pool.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [pool[i], pool[j]] = [pool[j], pool[i]];
+          }
+        }
+        pool = pool.slice(0, Math.min(requested, pool.length));
+      }
+
+      if (!pool.length) {
+        alert('لا توجد أسئلة متاحة وفق الاختيارات الحالية.');
+        return;
+      }
+
+      current = 0; answers = {}; marked = new Set(); startedAt = Date.now(); startTimer();
+      document.getElementById('home').classList.add('hidden');
+      document.getElementById('results').style.display = 'none';
+      document.getElementById('exam').style.display = 'block';
+      render();
+    }
+
+    function answerIndices(q) { return Array.isArray(q.answer) ? q.answer : [q.answer]; }
+
+    function render() {
+      if (!pool.length || !pool[current]) {
+        alert('تعذر عرض السؤال لأن بنك الأسئلة فارغ.'); goHome(); return;
+      }
+      const q = pool[current], answer = answers[current];
+      const correctIndices = answerIndices(q);
+      const selectedIndices = answer ? (Array.isArray(answer.selected) ? answer.selected : [answer.selected]) : [];
+      document.getElementById('qCounter').textContent = `السؤال ${current + 1} من ${pool.length}`;
+      document.getElementById('qPage').textContent = (q.page !== '' && q.page !== null && q.page !== undefined) ? `📖 الصفحة ${q.page}` : '📖 الصفحة';
+      const markBtn = document.getElementById('markBtn');
+      if (marked.has(current)) {
+        markBtn.textContent = `★ معلّم للمراجعة (${marked.size})`;
+        markBtn.classList.add('marked');
+      } else {
+        markBtn.textContent = marked.size ? `☆ علّم للمراجعة (${marked.size})` : '☆ علّم للمراجعة';
+        markBtn.classList.remove('marked');
+      }
+      document.getElementById('question').textContent = q.q + (correctIndices.length > 1 ? ' (اختر جميع الإجابات الصحيحة)' : '');
+      const box = document.getElementById('options'); box.innerHTML = '';
+      q.options.forEach((op, i) => {
+        const el = document.createElement('div'); el.className = 'option';
+        if (selectedIndices.includes(i)) el.classList.add('selected');
+        if (answer && correctIndices.length === 1) {
+          if (correctIndices.includes(i)) el.classList.add('correct');
+          if (selectedIndices.includes(i) && !correctIndices.includes(i)) el.classList.add('wrong');
+        }
+        const showFeedback = answer && correctIndices.length === 1 && correctIndices.includes(i);
+        el.innerHTML = `<span class="letter">${'ABCD'[i]}</span><span class="option-text">${op}${showFeedback ? `<span class="feedback"><strong>✓ ${answer.correct ? 'إجابة صحيحة' : 'الإجابة الصحيحة'}</strong>${q.explanation}</span>` : ''}</span>`;
+        el.onclick = () => selectAnswer(i); box.appendChild(el);
+      });
+      document.getElementById('prevBtn').disabled = current === 0;
+      document.getElementById('nextBtn').textContent = current === pool.length - 1 ? 'إنهاء الاختبار' : 'التالي';
+    }
+
+    function selectAnswer(i) {
+      const q = pool[current], correctIndices = answerIndices(q);
+      if (correctIndices.length === 1) {
+        if (answers[current]) return;
+        answers[current] = { selected: i, correct: i === correctIndices[0] };
+      } else {
+        let selected = answers[current] ? [...answers[current].selected] : [];
+        selected = selected.includes(i) ? selected.filter(x => x !== i) : [...selected, i];
+        selected.sort((a,b)=>a-b);
+        if (!selected.length) delete answers[current];
+        else answers[current] = { selected, correct: selected.length === correctIndices.length && selected.every(x => correctIndices.includes(x)) };
+      }
+      render();
+    }
+
+    function toggleMark() {
+      if (marked.has(current)) marked.delete(current);
+      else marked.add(current);
+      render();
+      updateMarkedQuestionsList();
+    }
+
+    function nextQ() {
+      if (!answers[current] && !marked.has(current)) {
+        alert('اختر إجابة، أو اضغط «علّم للمراجعة» لتجاوز السؤال والعودة إليه لاحقًا.');
+        return;
+      }
+      if (current < pool.length - 1) { current++; render() } else finishExam();
+    }
+    function prevQ() { if (current > 0) { current--; render() } }
+
+    function finishExam(timeExpired = false) {
+      if (timerId) { clearInterval(timerId); timerId = null }
+      const correct = Object.values(answers).filter(a => a.correct).length;
+      const total = pool.length;
+      const answered = Object.keys(answers).length;
+      const wrong = answered - correct;
+      const pct = total ? Math.round(correct / total * 100) : 0;
+      const old = getStats(activeChapter);
+      localStorage.setItem(statsKey(activeChapter), JSON.stringify({
+        answered: Math.min(chapterCounts[activeChapter], old.answered + answered),
+        best: Math.max(old.best, pct)
+      }));
+      document.getElementById('exam').style.display = 'none';
+      document.getElementById('results').style.display = 'block';
+      document.getElementById('finalPercent').textContent = pct + '%';
+      document.getElementById('correctCount').textContent = correct;
+      document.getElementById('wrongCount').textContent = wrong;
+      document.getElementById('totalCount').textContent = total;
+      renderReview('all');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderReview(filter = 'all') {
+      document.getElementById('filterAll').classList.toggle('active', filter === 'all');
+      document.getElementById('filterWrong').classList.toggle('active', filter === 'wrong');
+      document.getElementById('filterCorrect').classList.toggle('active', filter === 'correct');
+
+      const list = document.getElementById('reviewList');
+      list.innerHTML = '';
+
+      pool.forEach((q, index) => {
+        const a = answers[index];
+        const isAnswered = !!a;
+        const isCorrect = isAnswered && a.correct;
+
+        if (filter === 'wrong' && (!isAnswered || isCorrect)) return;
+        if (filter === 'correct' && !isCorrect) return;
+
+        const item = document.createElement('div');
+        item.className = 'review-item ' + (isCorrect ? 'correct-review' : 'wrong-review');
+
+        const selected = isAnswered ? (Array.isArray(a.selected) ? a.selected : [a.selected]) : [];
+        const correctIdx = answerIndices(q);
+        const userAnswer = isAnswered ? selected.map(i => q.options[i]).join(' + ') : 'لم تتم الإجابة';
+        const correctAnswer = correctIdx.map(i => q.options[i]).join(' + ');
+
+        item.innerHTML = `
+      <div class="review-q">${index + 1}. ${q.q} ${marked.has(index) ? '⭐' : ''}</div>
+      <div class="review-answer ${isCorrect ? 'user-correct' : 'user-wrong'}">
+        إجابتك: ${userAnswer} ${isCorrect ? '✔' : '✘'}
+      </div>
+      ${isCorrect ? '' : `<div class="review-answer right-answer">الإجابة الصحيحة: ${correctAnswer}</div>`}
+      <div class="review-explanation">${q.explanation}<br>📖 الصفحة ${q.page}</div>
+    `;
+        list.appendChild(item);
+      });
+
+      if (!list.children.length) {
+        list.innerHTML = '<div class="review-item">لا توجد إجابات ضمن هذا التصنيف.</div>';
+      }
+    }
+
+    function goHome() {
+      if (timerId) { clearInterval(timerId); timerId = null }
+      document.getElementById('exam').style.display = 'none';
+      document.getElementById('results').style.display = 'none';
+      document.getElementById('home').classList.remove('hidden');
+      buildCards();
+    }
+    document.getElementById('candidateName').value = localStorage.getItem('ksu101-candidate-name') || '';
+    buildCards();
+  
+    function isQuestionMarkedForReview(i){
+      try{
+        if (typeof markedForReview !== 'undefined') {
+          if (markedForReview instanceof Set) return markedForReview.has(i);
+          if (Array.isArray(markedForReview)) return !!markedForReview[i] || markedForReview.includes(i);
+          if (typeof markedForReview === 'object') return !!markedForReview[i];
+        }
+        if (typeof marked !== 'undefined') {
+          if (marked instanceof Set) return marked.has(i);
+          if (Array.isArray(marked)) return !!marked[i] || marked.includes(i);
+          if (typeof marked === 'object') return !!marked[i];
+        }
+        if (typeof reviewMarks !== 'undefined') {
+          if (reviewMarks instanceof Set) return reviewMarks.has(i);
+          if (Array.isArray(reviewMarks)) return !!reviewMarks[i] || reviewMarks.includes(i);
+          if (typeof reviewMarks === 'object') return !!reviewMarks[i];
+        }
+        if (typeof answers !== 'undefined' && answers && answers[i] && typeof answers[i] === 'object') {
+          return !!(answers[i].marked || answers[i].review || answers[i].flagged);
+        }
+      }catch(e){}
+      return false;
+    }
+
+    
+function getMarkedQuestionIndexes(){
+      return [...marked].sort((a,b)=>a-b);
+    }
+
+    function updateMarkedQuestionsList(){
+      const list = document.getElementById('markedQuestionsList');
+      if(!list) return;
+
+      const indexes = [...marked].sort((a,b)=>a-b);
+
+      if(indexes.length === 0){
+        list.innerHTML = '<div class="marked-empty">لا توجد أسئلة معلّمة للمراجعة حتى الآن.</div>';
+        return;
+      }
+
+      list.innerHTML =
+        '<div style="margin-bottom:12px;font-weight:800;color:#0d4f7d">عدد الأسئلة المعلّمة: ' + indexes.length + '</div>' +
+        '<div class="marked-grid">' +
+        indexes.map(i =>
+          `<button class="marked-q" type="button" onclick="goToMarkedQuestion(${i})">سؤال ${i+1}</button>`
+        ).join('') +
+        '</div>';
+    }
+
+    function openMarkedQuestions(){
+      updateMarkedQuestionsList();
+      document.getElementById('markedModal').classList.add('show');
+    }
+
+    function closeMarkedQuestions(){
+      document.getElementById('markedModal').classList.remove('show');
+    }
+
+    function goToMarkedQuestion(i){
+      current = Number(i);
+      closeMarkedQuestions();
+      render();
+    }
+
+  </script>
+</body>
+
+</html>[
